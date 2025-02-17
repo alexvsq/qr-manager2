@@ -1,0 +1,47 @@
+import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native'
+import { COLORS, SHADOW_DEFAULT } from '@/utils/constants'
+import { useCameraStore } from '@/store/cameraStore'
+export function IndexBtns() {
+
+    const ToggleFlash = useCameraStore((state) => state.toggleFlash)
+    const ToggleFacing = useCameraStore((state) => state.toggleFacing)
+
+    return (
+        <View style={{ flexDirection: 'row', gap: 16, marginRight: 12 }}>
+
+            <TouchableOpacity
+                onPress={ToggleFacing}
+            >
+                <View style={styles.conatinnerBtn}>
+                    <Image
+                        source={require('@/assets/icons/camera-switch.png')}
+                        style={{ width: '100%', height: '100%' }}
+                    />
+                </View>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+                onPress={ToggleFlash}
+            >
+                <View style={styles.conatinnerBtn}>
+                    <Image
+                        source={require('@/assets/icons/flash.png')}
+                        style={{ width: '100%', height: '100%' }}
+                    />
+                </View>
+            </TouchableOpacity>
+
+        </View>
+    )
+}
+
+const styles = StyleSheet.create({
+    conatinnerBtn: {
+        backgroundColor: COLORS.white,
+        borderRadius: 999,
+        width: 38,
+        height: 38,
+        padding: 8,
+        ...SHADOW_DEFAULT
+    }
+})

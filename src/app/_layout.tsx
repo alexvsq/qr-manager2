@@ -3,6 +3,7 @@ import { StatusBar } from 'expo-status-bar'
 import { useFonts } from 'expo-font';
 import { useEffect } from 'react';
 import * as SplashScreen from 'expo-splash-screen';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 export default function Layout() {
 
@@ -24,11 +25,11 @@ export default function Layout() {
   }
 
   return (
-    <>
+    <GestureHandlerRootView style={{ flex: 1 }}>
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       </Stack>
       <StatusBar style='dark' />
-    </>
+    </GestureHandlerRootView>
   );
 }
