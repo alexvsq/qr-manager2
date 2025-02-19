@@ -2,7 +2,6 @@ import { View, Text, Button } from 'react-native'
 import { useState, useRef } from 'react'
 import { CameraView, CameraType, useCameraPermissions, BarcodeScanningResult } from 'expo-camera';
 import { useCameraStore } from '@/store/cameraStore'
-import { SaveScannedHistory } from '@/functions/sql/storageData'
 import { useScannedHistory } from '@/hooks/useScannedHistory'
 
 export default function Camera() {
@@ -16,6 +15,7 @@ export default function Camera() {
     let isActiveToScannRef = useRef(true);
 
     const handleBarcodeScanned = async (ScannedResult: BarcodeScanningResult) => {
+
         if (!isActiveToScannRef.current) return;
 
         isActiveToScannRef.current = false;
@@ -37,7 +37,7 @@ export default function Camera() {
             facing={Facing}
             enableTorch={Flash}
             barcodeScannerSettings={{
-                barcodeTypes: ["qr"],
+                barcodeTypes: ["qr", 'aztec', 'codabar', 'code128', 'code39', 'datamatrix', 'ean13', 'ean8', 'itf14', 'pdf417', 'upc_a', 'upc_e'],
             }}
             onBarcodeScanned={handleBarcodeScanned}
         >

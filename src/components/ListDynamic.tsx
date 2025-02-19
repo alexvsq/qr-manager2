@@ -4,7 +4,7 @@ import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import { useState, ReactNode } from 'react';
 import { COLORS, SHADOW_DEFAULT } from "@/utils/constants";
 
-const HEIGHT_SCREEN = Dimensions.get('window').height;
+const HEIGHT_SCREEN = Dimensions.get('screen').height;
 const SPRING_CONFIG_FAST = {
     damping: 12,     // Menor amortiguación = más rebote
     stiffness: 200,  // Mayor rigidez = más velocidad
@@ -33,7 +33,7 @@ export default function ListDynamic({ children }: { children: ReactNode }) {
         })
         .onFinalize(() => {
             pressed.value = false;
-            if (HeightList.value > HEIGHT_SCREEN / 2) {
+            if (HeightList.value > HEIGHT_SCREEN / 2.3) {
                 HeightList.value = withSpring(HEIGHT_SCREEN * 0.7, SPRING_CONFIG_FAST);
                 isOpen.value = true;
             } else {
@@ -60,7 +60,7 @@ export default function ListDynamic({ children }: { children: ReactNode }) {
                 style={[styles.containerList, HeightAnimated]}
             >
                 <GestureDetector gesture={pan}>
-                    <Animated.View style={{ width: '100%', height: 25, alignItems: 'center', justifyContent: 'center' }}>
+                    <Animated.View style={{ width: '100%', height: 28, alignItems: 'center', justifyContent: 'center' }}>
                         <Animated.View style={{ width: 52, height: 5, borderRadius: 999, backgroundColor: COLORS.lines }} />
                     </Animated.View>
                 </GestureDetector>

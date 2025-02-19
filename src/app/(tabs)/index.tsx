@@ -5,7 +5,7 @@ import { COLORS, SHADOW_DEFAULT } from '@/utils/constants'
 import ListDynamic from "@/components/ListDynamic";
 import HeaderCardIndex from "@/components/HeaderCardIndex";
 import CardRecentIndex from "@/components/cards/CardRecentIndex";
-import DivisorLine from "@/components/DivisorLine";
+import DivisorLine from "@/components/ui/DivisorLine";
 import { useScannedHistory } from '@/hooks/useScannedHistory'
 
 const WIDTH_SCREEN = Dimensions.get('window').width
@@ -25,21 +25,23 @@ export default function Index() {
         </View>
 
         <ListDynamic>
-          <View style={{ paddingHorizontal: 30 }}>
+          <View style={{ paddingHorizontal: 25 }}>
+
             <HeaderCardIndex />
+
             <FlatList
-              data={ScannedListHistory}
+              data={ScannedListHistory?.slice(0, 10)}
               keyExtractor={(item) => item.id + ""}
               showsVerticalScrollIndicator={false}
-              contentContainerStyle={{ paddingVertical: 20 }}
+              contentContainerStyle={{ paddingBottom: 30 }}
               renderItem={({ item }) => (
                 <CardRecentIndex  {...item} />
               )}
               ItemSeparatorComponent={() => <DivisorLine />}
             />
+
           </View>
         </ListDynamic>
-
 
       </View>
     </Background >

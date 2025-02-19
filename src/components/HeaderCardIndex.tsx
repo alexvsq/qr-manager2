@@ -1,7 +1,11 @@
-import { Text, View, Image, TouchableOpacity } from "react-native";
-import { COLORS } from '@/utils/constants'
+import { View, Image, TouchableOpacity } from "react-native";
+import TextComponent from "./ui/TextComponent";
+import { useTranslation } from 'react-i18next'
 
 export default function headerCardIndex() {
+
+    const { t } = useTranslation()
+
     return (
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5 }}>
@@ -10,10 +14,10 @@ export default function headerCardIndex() {
                     style={{ width: 22, height: 22, }}
                     resizeMode="contain"
                 />
-                <Text style={{ fontFamily: 'Poppins-SemiBold' }}>Recent</Text>
+                <TextComponent typeText="titleCard" >{t('recent')}</TextComponent>
             </View>
             <TouchableOpacity>
-                <Text style={{ color: COLORS.textGray }} >View All</Text>
+                <TextComponent typeText="gray" >{t('viewAll')}</TextComponent>
             </TouchableOpacity>
         </View>
     )

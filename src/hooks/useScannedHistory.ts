@@ -1,9 +1,9 @@
-import { GetScannedAllRows } from "@/functions/sql/storageData";
 import { useScannedListHistoryStore } from "@/store/ScannedHistory.store";
 import { useState, useEffect } from "react";
-import { SaveScannedHistory } from "@/functions/sql/storageData";
 import { BarcodeScanningResult } from "expo-camera";
-import { ScannedHistoryDataToSave } from "@/types/types";
+import { GetDataForSave } from "@/functions/OrderData";
+import { SaveScannedHistory } from "@/functions/sql/setData";
+import { GetScannedAllRows } from "@/functions/sql/getData";
 
 export function useScannedHistory() {
   const ScannedListHistory = useScannedListHistoryStore(
@@ -23,15 +23,7 @@ export function useScannedHistory() {
     notes = "",
   }: AddAndSaveScannedHistoryProps) => {
     try {
-      const { data, type } = ScannedResult;
-
-      const NewItem: ScannedHistoryDataToSave = {
-        timeStamp: Date.now(),
-        value: data,
-        notes,
-        barcodeType: type,
-      };
-
+      const NewItem = GetDataForSave(ScannedResult);
       const NewId = await SaveScannedHistory(NewItem);
 
       if (!NewId) throw new Error("NewId is null");
@@ -53,7 +45,8 @@ export function useScannedHistory() {
     GetScannedAllRows()
       .then((data) => {
         if (data) {
-          SetScannedListHistory(data);
+          const dataReverse = data.reverse();
+          SetScannedListHistory(dataReverse);
         }
       })
       .catch((error) => {

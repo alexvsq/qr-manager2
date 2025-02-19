@@ -1,12 +1,12 @@
 export const SCANNED_TYPES = [
   {
-    codeId: "wifi",
-    iconImg: require("@/assets/icons/wifi.svg"),
+    codeId: "web",
+    iconImg: require("@/assets/icons/web.svg"),
     color: "#3883F7",
   },
   {
-    codeId: "web",
-    iconImg: require("@/assets/icons/web.svg"),
+    codeId: "wifi",
+    iconImg: require("@/assets/icons/wifi.svg"),
     color: "#FFB300",
   },
   {
@@ -38,5 +38,10 @@ export const SCANNED_TYPES = [
     codeId: "text",
     iconImg: require("@/assets/icons/text.svg"),
     color: "#F84C4E",
+  },
+  {
+    codeId: "bar",
+    iconImg: require("@/assets/icons/bar.svg"),
+    color: "#735CD8",
   },
 ];

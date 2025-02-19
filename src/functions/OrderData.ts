@@ -1,3 +1,50 @@
+import { ScannedHistoryDataToSave } from "@/types/types";
+import { BarcodeScanningResult } from "expo-camera";
+
+export const GetDataForSave = (
+  ResultScanned: BarcodeScanningResult
+): ScannedHistoryDataToSave => {
+  const DataValuesScanned = ResultScanned.raw
+    ? ResultScanned.raw
+    : ResultScanned.data;
+
+  const DataToSave: ScannedHistoryDataToSave = {
+    name: "",
+    timeStamp: Date.now(),
+    value: DataValuesScanned,
+    notes: "",
+    type: "",
+    barcodeType: ResultScanned.type,
+  };
+
+  if (ResultScanned.type !== "qr") {
+    DataToSave.name = DataValuesScanned;
+    DataToSave.type = "bar";
+    return DataToSave;
+  }
+
+  DataToSave.type = returnType(DataValuesScanned);
+  DataToSave.name = getName(DataToSave.type, DataValuesScanned);
+
+  return DataToSave;
+};
+
+const getName = (type: string, value: string) => {
+  if (type === "wifi") return getWifiData(value).name;
+  if (type === "contact") return getContactData(value).firstName;
+  if (type === "email") return getEmailData(value).to;
+  if (type === "sms") return getSMSData(value).message;
+  if (type === "number") return getNumberData(value);
+  if (type === "web" || type === "url") return extractNameFromUrl(value);
+  return value;
+};
+
+export function extractNameFromUrl(url: string): string {
+  const regex = /:\/\/(?:www\.)?([^\.]+)\./;
+  const match = url.match(regex);
+  return match ? match[1] : url;
+}
+
 export function returnType(value: string) {
   if (value.startsWith("http")) return "web";
   if (value.startsWith("WIFI:")) return "wifi";

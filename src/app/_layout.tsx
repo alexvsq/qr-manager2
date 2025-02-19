@@ -4,8 +4,14 @@ import { useFonts } from 'expo-font';
 import { useEffect } from 'react';
 import * as SplashScreen from 'expo-splash-screen';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import * as NavigationBar from 'expo-navigation-bar';
+import { Platform } from 'react-native'
+import { COLORS } from '@/utils/constants'
+import '@/i18n/i18n'
 
 export default function Layout() {
+
+  Platform.OS === 'android' && NavigationBar.setBackgroundColorAsync(COLORS.blackBg);
 
   const [loaded, error] = useFonts({
     'Poppins-Regular': require('@/assets/fonts/Poppins-Regular.ttf'),
@@ -15,6 +21,8 @@ export default function Layout() {
   });
 
   useEffect(() => {
+
+
     if (loaded || error) {
       SplashScreen.hideAsync();
     }
@@ -26,7 +34,18 @@ export default function Layout() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <Stack>
+      <Stack
+        screenOptions={{
+          headerTitleStyle: {
+            fontFamily: 'Poppins-SemiBold',
+          },
+          headerTintColor: COLORS.blackBg,
+          headerShadowVisible: false,
+          headerStyle: {
+            backgroundColor: COLORS.whiteBg,
+          }
+        }}
+      >
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       </Stack>
       <StatusBar style='dark' />

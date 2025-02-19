@@ -1,30 +1,45 @@
-import { COLORS } from '@/utils/constants'
-import { View, Text } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { Image } from 'expo-image';
 import { ScannedHistoryData } from '@/types/types'
-import { returnType } from '@/functions/OrderData'
 import { SCANNED_TYPES } from '@/utils/types'
+import TextComponent from '@/components/ui/TextComponent';
+import { router } from 'expo-router'
 
 export default function cardRecentIndex(item: ScannedHistoryData) {
 
-    const Type = returnType(item.value)
-    const Icon = SCANNED_TYPES.find((type) => type.codeId === Type)
+    const handlePress = () => {
+        router.push({
+            pathname: '/detailsScanned/[id]',
+            params: { id: item.id }
+        })
+    }
+
+    const Icon = SCANNED_TYPES.find((type) => type.codeId === item.type)
+
+    const Name = item.name.length > 18 ? item.name.slice(0, 18) + "..." : item.name
+    const Value = item.value.length > 30 ? item.value.slice(0, 30) + "..." : item.value
 
     return (
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 10, alignItems: 'center' }}>
+        <TouchableOpacity
+            onPress={handlePress}
+            style={styles.container}
+        >
 
-            <View style={{ flexDirection: 'row', gap: 10, alignContent: 'center' }}>
+            <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }}>
 
                 <Image
-                    style={{ width: 32, height: 32, }}
+                    style={{ width: 32, height: 32 }}
                     source={Icon?.iconImg}
                     contentFit='contain'
                     tintColor={Icon?.color}
                 />
 
                 <View >
-                    <Text style={{ fontFamily: 'Poppins-SemiBold', fontSize: 16 }}>Alex Vasquez</Text>
-                    <Text style={{ fontFamily: 'Poppins-Regular', color: COLORS.textGray, fontSize: 13 }} >User</Text>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5 }}>
+                        <TextComponent typeText='titleCard'>{Name}</TextComponent>
+                        <Text style={{ fontFamily: 'Poppins-Regular', color: Icon?.color, fontSize: 13 }} >{item.type}</Text>
+                    </View>
+                    <TextComponent typeText='graySmall' >{Value}</TextComponent>
                 </View>
             </View>
 
@@ -36,6 +51,12 @@ export default function cardRecentIndex(item: ScannedHistoryData) {
                 />
             </View>
 
-        </View>
+        </TouchableOpacity>
     )
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flexDirection: 'row', justifyContent: 'space-between', marginVertical: 10, alignItems: 'center',
+    },
+})

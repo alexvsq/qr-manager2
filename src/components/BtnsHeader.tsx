@@ -1,6 +1,7 @@
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native'
 import { COLORS, SHADOW_DEFAULT } from '@/utils/constants'
 import { useCameraStore } from '@/store/cameraStore'
+
 export function IndexBtns() {
 
     const ToggleFlash = useCameraStore((state) => state.toggleFlash)
@@ -9,29 +10,26 @@ export function IndexBtns() {
     return (
         <View style={{ flexDirection: 'row', gap: 16, marginRight: 12 }}>
 
-            <TouchableOpacity
-                onPress={ToggleFacing}
-            >
-                <View style={styles.conatinnerBtn}>
-                    <Image
-                        source={require('@/assets/icons/camera-switch.png')}
-                        style={{ width: '100%', height: '100%' }}
-                    />
-                </View>
-            </TouchableOpacity>
+            < BtnCircle image={require('@/assets/icons/camera-switch.png')} onPress={ToggleFacing} />
 
-            <TouchableOpacity
-                onPress={ToggleFlash}
-            >
-                <View style={styles.conatinnerBtn}>
-                    <Image
-                        source={require('@/assets/icons/flash.png')}
-                        style={{ width: '100%', height: '100%' }}
-                    />
-                </View>
-            </TouchableOpacity>
+            < BtnCircle image={require('@/assets/icons/flash.png')} onPress={ToggleFlash} />
 
         </View>
+    )
+}
+
+export const BtnCircle = ({ image, onPress }: { image: any, onPress: () => void }) => {
+    return (
+        <TouchableOpacity
+            onPress={onPress}
+        >
+            <View style={styles.conatinnerBtn}>
+                <Image
+                    source={image}
+                    style={{ width: '100%', height: '100%' }}
+                />
+            </View>
+        </TouchableOpacity>
     )
 }
 
