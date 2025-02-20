@@ -2,7 +2,7 @@ import { Text, StyleSheet, type TextProps } from 'react-native'
 import { COLORS } from '@/utils/constants'
 
 type TextComponentProps = TextProps & {
-	typeText?: 'default' | 'titleCard' | 'gray' | 'graySmall'
+	typeText?: 'default' | 'titleCard' | 'gray' | 'graySmall' | 'textButton' | 'white'
 }
 
 export default function TextComponent({ typeText = 'default', style, ...res }: TextComponentProps) {
@@ -13,6 +13,8 @@ export default function TextComponent({ typeText = 'default', style, ...res }: T
 				typeText === 'titleCard' && styles.titleCard,
 				typeText === 'gray' && styles.Gray,
 				typeText === 'graySmall' && styles.GraySmall,
+				typeText === 'textButton' && styles.textButton,
+				typeText === 'white' && styles.white,
 			]}
 			{...res}
 		/>
@@ -21,12 +23,16 @@ export default function TextComponent({ typeText = 'default', style, ...res }: T
 
 const styles = StyleSheet.create({
 	default: {
-		fontFamily: 'Poppins-Medium',
+		fontFamily: 'Poppins-Regular',
 		color: COLORS.text1,
+	},
+	white: {
+		fontFamily: 'Poppins-Regular',
+		color: COLORS.white,
 	},
 	titleCard: {
 		fontFamily: 'Poppins-SemiBold',
-		fontSize: 15,
+		fontSize: 14,
 		color: COLORS.text1,
 
 	},
@@ -40,4 +46,9 @@ const styles = StyleSheet.create({
 		fontSize: 14,
 		color: COLORS.textGray,
 	},
+	textButton: {
+		fontFamily: 'Poppins-SemiBold',
+		fontSize: 15,
+		color: COLORS.white,
+	}
 })

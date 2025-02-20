@@ -28,6 +28,14 @@ export const UpdateNotesOfScannedHistory = async (
   }
 };
 
+export const DeleteOneScannedHistory = async (id: number) => {
+  try {
+    await db.runAsync("DELETE FROM ScannedHistory WHERE id = ?", [id]);
+  } catch (error) {
+    console.error("DeleteOneScannedHistory", error);
+  }
+};
+
 export const deleteall = async () => {
   try {
     const res = db.execSync("DROP TABLE IF EXISTS ScannedHistory");

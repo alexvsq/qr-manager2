@@ -1,48 +1,40 @@
-import { View, Text, TouchableOpacity, TextInput } from 'react-native'
 import { getWifiData } from '@/functions/OrderData'
 import DivisorLine from '@/components/ui/DivisorLine'
-import { InfoTitleAndText, InputNotes } from '@/components/InfoEdit/components/components'
+import { InfoTitleAndText } from '@/components/InfoEdit/components'
 import { ScannedHistoryData } from '@/types/types'
-import { UpdateNotesOfScannedHistory } from '@/functions/sql/setData'
+import { useTranslation } from 'react-i18next'
 
 export default function Wifi({ item }: { item: ScannedHistoryData }) {
 
+    const { t } = useTranslation()
     const DataOfValue = getWifiData(item.value)
 
     return (
-        <View>
-
+        <>
             <InfoTitleAndText
-                title='Nombre de la red'
+                title={t('wifi.name')}
                 text={DataOfValue.name}
             />
 
             <DivisorLine />
 
             <InfoTitleAndText
-                title='Contraseña'
+                title={t('wifi.password')}
                 text={DataOfValue.password}
             />
-
             <DivisorLine />
 
             <InfoTitleAndText
-                title='Seguridad'
+                title={t('wifi.security')}
                 text={DataOfValue.security}
             />
 
             <DivisorLine />
 
             <InfoTitleAndText
-                title='Visible'
+                title={t('wifi.hidden')}
                 text={DataOfValue.hidden}
             />
-
-            <DivisorLine />
-
-            <InputNotes
-                id={item.id}
-            />
-        </View>
+        </>
     )
 }

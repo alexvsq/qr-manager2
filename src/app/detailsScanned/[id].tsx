@@ -1,7 +1,6 @@
-import { View, Text, Dimensions, StyleSheet, ScrollView } from 'react-native'
+import { View, Dimensions, StyleSheet } from 'react-native'
 import { useEffect, useState } from 'react'
 import { useLocalSearchParams, Stack } from 'expo-router'
-import Background from '@/components/ui/Background-Page'
 import { GetOneScannedHistory } from '@/functions/sql/getData'
 import { ScannedHistoryData } from '@/types/types'
 import QRCode from "react-qr-code";
@@ -10,9 +9,11 @@ import ListDynamic from '@/components/ListDynamic'
 import IconImage from '@/components/IconImage'
 import TextComponent from '@/components/ui/TextComponent'
 import { BtnCircle } from '@/components/BtnsHeader'
-import PrincipalKind from '@/components/InfoEdit/Principal'
+import DecodeInfoToShow from '@/components/InfoEdit/DecodeInfoToShow'
 import { useTranslation } from 'react-i18next'
-import { InputNotes } from '@/components/InfoEdit/components/components'
+import { useScannedHistory } from '@/hooks/useScannedHistory'
+import { router } from 'expo-router'
+import Animated, { FlipInEasyX } from 'react-native-reanimated'
 
 const WIDTH_SCREEN = Dimensions.get('screen').width
 
@@ -20,8 +21,18 @@ export default function id() {
 
     const { t } = useTranslation()
     const { id } = useLocalSearchParams()
+    const { DeleteScannedHistory } = useScannedHistory()
 
     const [data, setData] = useState<ScannedHistoryData | null>(null)
+
+    const HandleDelete = async () => {
+        try {
+            await DeleteScannedHistory(Number(id))
+            router.back()
+        } catch (error) {
+            console.error('HandleDelete', error)
+        }
+    }
 
     const getData = async () => {
         const data = await GetOneScannedHistory(Number(id))
@@ -33,50 +44,60 @@ export default function id() {
     }, [])
 
     return (
-        <>
+
+        <View style={{ flex: 1 }}>
             <Stack.Screen
                 options={{
                     headerTitleAlign: 'center',
                     title: t('title.details'),
-                    headerRight: () => <IconImage item={data} />
+                    headerRight: () => <IconImage item={data} />,
+                    contentStyle: {
+                        backgroundColor: COLORS.whiteBg
+                    }
                 }}
             />
-            <Background>
-                {
-                    data ?
-                        <View style={{ flex: 1 }}>
-                            <View style={styles.qrContainer}>
-                                <View style={styles.qr}>
-                                    <QRCode
-                                        size={250}
-                                        value={data.value}
-                                    />
-                                </View>
+            {
+                data ?
+                    <View style={{ flex: 1 }}>
+                        <Animated.View entering={FlipInEasyX} style={styles.qrContainer}>
+                            <View style={styles.qr}>
+                                <QRCode
+                                    size={250}
+                                    value={data.value}
+                                />
                             </View>
+                        </Animated.View>
 
-                            <View style={styles.containerDates}>
-                                <TextComponent typeText='graySmall'>{new Date(data.timeStamp).toLocaleTimeString()}</TextComponent>
-                                <TextComponent typeText='graySmall'>{new Date(data.timeStamp).toLocaleDateString()}</TextComponent>
-                            </View>
-
-                            <View style={{ flexDirection: 'row', gap: 50, justifyContent: 'center', marginBottom: 15 }}>
-                                <BtnCircle image={require('@/assets/icons/color.png')} onPress={() => { }} />
-                                <BtnCircle image={require('@/assets/icons/download.png')} onPress={() => { }} />
-                                <BtnCircle image={require('@/assets/icons/share.png')} onPress={() => { }} />
-                            </View>
-
-                            <ListDynamic>
-                                <ScrollView style={{ paddingHorizontal: 25, paddingBottom: 20 }}>
-                                    <PrincipalKind item={data} />
-                                </ScrollView>
-                            </ListDynamic>
+                        <View style={styles.containerDates}>
+                            <TextComponent typeText='graySmall'>{new Date(data.timeStamp).toLocaleTimeString()}</TextComponent>
+                            <TextComponent typeText='graySmall'>{data.barcodeType}</TextComponent>
+                            <TextComponent typeText='graySmall'>{new Date(data.timeStamp).toLocaleDateString()}</TextComponent>
                         </View>
-                        :
-                        <TextComponent>asdfasd</TextComponent>
-                }
 
-            </Background>
-        </>
+                        <View style={{ flexDirection: 'row', gap: 40, justifyContent: 'center', marginBottom: 15 }}>
+                            <BtnCircle image={require('@/assets/icons/trash.png')} FuncPress={HandleDelete} />
+                            <BtnCircle image={require('@/assets/icons/color.png')} FuncPress={() => { }} />
+                            <BtnCircle image={require('@/assets/icons/download.png')} FuncPress={() => { }} />
+                            <BtnCircle image={require('@/assets/icons/share.png')} FuncPress={() => { }} />
+                        </View>
+
+                        <ListDynamic>
+
+                            <View style={{ paddingHorizontal: 25, paddingBottom: 20 }}>
+
+                                <DecodeInfoToShow
+                                    item={data}
+                                />
+
+                            </View>
+
+                        </ListDynamic>
+                    </View>
+                    :
+                    <TextComponent>{t('loading')}</TextComponent>
+            }
+
+        </View >
     )
 }
 
@@ -98,7 +119,8 @@ const styles = StyleSheet.create({
         width: '100%',
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-around',
+        justifyContent: 'center',
+        gap: 50,
         marginVertical: 10
     }
 })

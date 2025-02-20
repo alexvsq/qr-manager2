@@ -17,10 +17,12 @@ export default function CardHistory({ item }: { item: ScannedHistoryData }) {
 
     const Icon = SCANNED_TYPES.find((type) => type.codeId === item.type)
 
-    const Name = item.name.length > 16 ? item.name.slice(0, 16) + "..." : item.name
-    const Value = item.value.length > 30 ? item.value.slice(0, 30) + "..." : item.value
+    const Name = item.name.length > 15 ? item.name.slice(0, 15) + "..." : item.name
+    const ValueClear = item.value.trim().replace(/\n/g, '')
+    const Value = ValueClear.length > 30 ? ValueClear.slice(0, 30) + "..." : ValueClear
 
     const HourItem = new Date(item.timeStamp).toLocaleTimeString()
+
 
     return (
         <TouchableOpacity
@@ -45,7 +47,7 @@ export default function CardHistory({ item }: { item: ScannedHistoryData }) {
                     <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5 }}>
                             <TextComponent typeText='titleCard' >{Name}</TextComponent>
-                            <Text style={{ fontFamily: 'Poppins-Regular', color: Icon?.color, fontSize: 13 }} >{item.type}</Text>
+                            <Text style={{ fontFamily: 'Poppins-Regular', color: Icon?.color, fontSize: 11 }} >{item.type}</Text>
                         </View>
 
                         <TextComponent typeText='graySmall' >{HourItem}</TextComponent>

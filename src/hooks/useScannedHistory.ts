@@ -1,8 +1,7 @@
 import { useScannedListHistoryStore } from "@/store/ScannedHistory.store";
-import { useState, useEffect } from "react";
-import { BarcodeScanningResult } from "expo-camera";
-import { GetDataForSave } from "@/functions/OrderData";
-import { SaveScannedHistory } from "@/functions/sql/setData";
+import { useEffect } from "react";
+import { ScannedHistoryData } from "@/types/types";
+import { DeleteOneScannedHistory } from "@/functions/sql/setData";
 import { GetScannedAllRows } from "@/functions/sql/getData";
 
 export function useScannedHistory() {
@@ -13,31 +12,27 @@ export function useScannedHistory() {
     (state) => state.SetScannedListHistory
   );
 
-  interface AddAndSaveScannedHistoryProps {
-    ScannedResult: BarcodeScanningResult;
-    notes?: string;
-  }
-
-  const AddAndSaveScannedHistory = async ({
-    ScannedResult,
-    notes = "",
-  }: AddAndSaveScannedHistoryProps) => {
+  const AddinScannedHistoryList = async (NewItem: ScannedHistoryData) => {
     try {
-      const NewItem = GetDataForSave(ScannedResult);
-      const NewId = await SaveScannedHistory(NewItem);
-
-      if (!NewId) throw new Error("NewId is null");
-
-      const newToList = { ...NewItem, id: NewId };
-
       if (ScannedListHistory && ScannedListHistory.length > 0) {
-        const newList = [newToList, ...ScannedListHistory];
+        const newList = [NewItem, ...ScannedListHistory];
         SetScannedListHistory(newList);
       } else {
-        SetScannedListHistory([newToList]);
+        SetScannedListHistory([NewItem]);
       }
     } catch (error) {
       console.error("AddAndSaveScannedHistory", error);
+    }
+  };
+
+  const DeleteScannedHistory = async (id: number) => {
+    if (!ScannedListHistory) return;
+    try {
+      const filteredList = ScannedListHistory.filter((item) => item.id !== id);
+      SetScannedListHistory(filteredList);
+      await DeleteOneScannedHistory(id);
+    } catch (error) {
+      console.error("DeleteScannedHistory", error);
     }
   };
 
@@ -54,5 +49,5 @@ export function useScannedHistory() {
       });
   }, []);
 
-  return { ScannedListHistory, AddAndSaveScannedHistory };
+  return { ScannedListHistory, AddinScannedHistoryList, DeleteScannedHistory };
 }

@@ -1,6 +1,7 @@
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native'
 import { COLORS, SHADOW_DEFAULT } from '@/utils/constants'
 import { useCameraStore } from '@/store/cameraStore'
+import { router } from 'expo-router'
 
 export function IndexBtns() {
 
@@ -10,18 +11,41 @@ export function IndexBtns() {
     return (
         <View style={{ flexDirection: 'row', gap: 16, marginRight: 12 }}>
 
-            < BtnCircle image={require('@/assets/icons/camera-switch.png')} onPress={ToggleFacing} />
+            < BtnCircle image={require('@/assets/icons/camera-switch.png')} FuncPress={ToggleFacing} />
 
-            < BtnCircle image={require('@/assets/icons/flash.png')} onPress={ToggleFlash} />
+            < BtnCircle image={require('@/assets/icons/flash.png')} FuncPress={ToggleFlash} />
 
         </View>
     )
 }
 
-export const BtnCircle = ({ image, onPress }: { image: any, onPress: () => void }) => {
+export const SearchHistoryBtn = () => {
+
+    const handlePress = () => {
+        router.push({
+            pathname: '/search/[list]',
+            params: { list: 'scannedHistory' }
+        })
+    }
+
     return (
         <TouchableOpacity
-            onPress={onPress}
+            onPressIn={handlePress}
+        >
+            <View style={[styles.conatinnerBtn, { marginRight: 12 }]}>
+                <Image
+                    source={require('@/assets/icons/search.png')}
+                    style={{ width: '100%', height: '100%' }}
+                />
+            </View>
+        </TouchableOpacity>
+    )
+}
+
+export const BtnCircle = ({ image, FuncPress }: { image: any, FuncPress: () => void }) => {
+    return (
+        <TouchableOpacity
+            onPressIn={FuncPress}
         >
             <View style={styles.conatinnerBtn}>
                 <Image

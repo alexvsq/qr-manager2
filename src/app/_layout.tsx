@@ -43,6 +43,9 @@ export default function Layout() {
           headerShadowVisible: false,
           headerStyle: {
             backgroundColor: COLORS.whiteBg,
+          },
+          contentStyle: {
+            backgroundColor: COLORS.blackBg
           }
         }}
       >

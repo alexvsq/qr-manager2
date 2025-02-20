@@ -1,83 +1,131 @@
 import { View, StyleSheet, Dimensions } from "react-native";
-import Animated, { useSharedValue, useAnimatedStyle, withSpring, withTiming } from 'react-native-reanimated';
-import { Gesture, GestureDetector } from 'react-native-gesture-handler';
-import { useState, ReactNode } from 'react';
+import Animated, {
+    useSharedValue,
+    useAnimatedStyle,
+    withSpring,
+    runOnJS
+} from 'react-native-reanimated';
+import { Gesture, GestureDetector, Pressable } from 'react-native-gesture-handler';
+import { useState, ReactNode, useCallback } from 'react';
 import { COLORS, SHADOW_DEFAULT } from "@/utils/constants";
 
-const HEIGHT_SCREEN = Dimensions.get('screen').height;
-const SPRING_CONFIG_FAST = {
-    damping: 12,     // Menor amortiguación = más rebote
-    stiffness: 200,  // Mayor rigidez = más velocidad
-    mass: 1,       // Menor masa = más velocidad
+const HEIGHT_SCREEN = Dimensions.get('window').height;
+
+const MAXIMUM_HEIGHT = HEIGHT_SCREEN * 0.8;
+
+const SPRING_CONFIG = {
+    damping: 15,
+    stiffness: 150,
+    mass: 1,
     restDisplacementThreshold: 0.01,
     restSpeedThreshold: 0.01,
 };
 
 export default function ListDynamic({ children }: { children: ReactNode }) {
+    const [isExpanded, setIsExpanded] = useState(false);
+    const translateY = useSharedValue(0);
+    const context = useSharedValue(0);
+    const MINIMUM_HEIGHT = useSharedValue(0)
 
-    const pressed = useSharedValue(false);
-    const isOpen = useSharedValue(false);
+    const updateIsExpanded = useCallback((value: boolean) => {
+        setIsExpanded(value);
+    }, []);
 
-    const HeightListInit = useSharedValue(0);
-    const HeightList = useSharedValue(0);
+    const snapTo = useCallback((point: number) => {
+        'worklet';
+        translateY.value = withSpring(point, SPRING_CONFIG);
+        runOnJS(updateIsExpanded)(point === -MAXIMUM_HEIGHT + MINIMUM_HEIGHT.value);
+    }, []);
 
     const pan = Gesture.Pan()
-        .onBegin(() => {
-            pressed.value = true;
+        .onStart(() => {
+            context.value = translateY.value;
         })
-        .onChange((event) => {
-            const newHeight = HeightListInit.value - event.translationY;
-            if (newHeight >= 0 && newHeight <= HEIGHT_SCREEN * 0.8) {
-                HeightList.value = newHeight;
-            }
+        .onUpdate((event) => {
+            const newTranslateY = context.value + event.translationY;
+            // Limitamos el movimiento entre el mínimo y máximo
+            translateY.value = Math.max(
+                -MAXIMUM_HEIGHT + MINIMUM_HEIGHT.value,
+                Math.min(0, newTranslateY)
+            );
         })
-        .onFinalize(() => {
-            pressed.value = false;
-            if (HeightList.value > HEIGHT_SCREEN / 2.3) {
-                HeightList.value = withSpring(HEIGHT_SCREEN * 0.7, SPRING_CONFIG_FAST);
-                isOpen.value = true;
+        .onEnd((event) => {
+            const velocity = event.velocityY;
+            const shouldExpand =
+                velocity < -500 || // Gesto rápido hacia arriba
+                (velocity > -500 && velocity < 500 && translateY.value < -MINIMUM_HEIGHT.value / 2); // Gesto lento pero pasó la mitad
+
+            if (shouldExpand) {
+                snapTo(-MAXIMUM_HEIGHT + MINIMUM_HEIGHT.value);
             } else {
-                HeightList.value = withSpring(HeightListInit.value, SPRING_CONFIG_FAST);
-                isOpen.value = false;
+                snapTo(0);
             }
         });
 
-    const HeightAnimated = useAnimatedStyle(() => {
+    const animatedStyle = useAnimatedStyle(() => {
         return {
-            height: HeightList.value
+            transform: [{ translateY: translateY.value }]
         };
     });
 
+    const handlePressIndicator = useCallback(() => {
+        if (isExpanded) {
+            snapTo(0);
+        } else {
+            snapTo(-MAXIMUM_HEIGHT + MINIMUM_HEIGHT.value);
+        }
+    }, [isExpanded, snapTo]);
+
     return (
         <View
-            style={{ flex: 1 }}
-            onLayout={(e) => {
-                HeightListInit.value = e.nativeEvent.layout.height;
-                HeightList.value = withTiming(e.nativeEvent.layout.height);
+            style={styles.container}
+            onLayout={(event) => {
+                MINIMUM_HEIGHT.value = event.nativeEvent.layout.height
             }}
         >
-            <Animated.View
-                style={[styles.containerList, HeightAnimated]}
-            >
-                <GestureDetector gesture={pan}>
-                    <Animated.View style={{ width: '100%', height: 28, alignItems: 'center', justifyContent: 'center' }}>
-                        <Animated.View style={{ width: 52, height: 5, borderRadius: 999, backgroundColor: COLORS.lines }} />
-                    </Animated.View>
-                </GestureDetector>
-                {children}
-            </Animated.View>
+            <GestureDetector gesture={pan}>
+                <Animated.View style={[styles.containerList, animatedStyle]}>
+                    <Pressable
+                        onPress={handlePressIndicator}
+                        style={styles.dragIndicator}>
+                        <View style={styles.dragBar} />
+                    </Pressable>
+                    <View style={styles.content}>
+                        {children}
+                    </View>
+                </Animated.View>
+            </GestureDetector>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        position: 'relative',
+    },
     containerList: {
         backgroundColor: COLORS.white,
         borderTopStartRadius: 40,
         borderTopEndRadius: 40,
         ...SHADOW_DEFAULT,
-        position: 'absolute',
+        height: HEIGHT_SCREEN,
         width: '100%',
-        bottom: 0
+        position: 'absolute',
+    },
+    dragIndicator: {
+        width: '100%',
+        height: 28,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    dragBar: {
+        width: 52,
+        height: 5,
+        borderRadius: 999,
+        backgroundColor: COLORS.lines,
+    },
+    content: {
+        flex: 1,
     }
-})
+});

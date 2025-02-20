@@ -2,7 +2,7 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { Tabs } from 'expo-router';
 import { COLORS } from '@/utils/constants'
-import { IndexBtns } from '@/components/BtnsHeader'
+import { IndexBtns, SearchHistoryBtn } from '@/components/BtnsHeader'
 import Fontisto from '@expo/vector-icons/Fontisto';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useTranslation } from 'react-i18next'
@@ -24,7 +24,10 @@ export default function TabLayout() {
                     fontFamily: 'Poppins-SemiBold',
                 },
                 sceneStyle: {
-                    backgroundColor: COLORS.blackBg
+                    backgroundColor: COLORS.whiteBg,
+                    borderBottomLeftRadius: 40,
+                    borderBottomRightRadius: 40,
+                    overflow: 'hidden'
                 },
                 tabBarStyle: {
                     backgroundColor: COLORS.blackBg,
@@ -43,6 +46,7 @@ export default function TabLayout() {
             <Tabs.Screen
                 name="history"
                 options={{
+                    headerRight: () => <SearchHistoryBtn />,
                     title: t('tab.History'),
                     tabBarIcon: ({ color }) => <Fontisto name="history" size={24} color={color} />,
                 }}

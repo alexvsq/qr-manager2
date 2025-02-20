@@ -1,80 +1,107 @@
-import React, { useState } from 'react';
-import { Alert, Modal, StyleSheet, Text, Pressable, View } from 'react-native';
-import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
+import { View, TextInput, Modal, Pressable, StyleSheet, Dimensions } from 'react-native'
+import { useState, useEffect } from 'react'
+import TextComponent from '@/components/ui/TextComponent'
+import { COLORS, SHADOW_DEFAULT } from '@/utils/constants'
+import { UpdateNotesOfScannedHistory } from '@/functions/sql/setData'
+import { useTranslation } from 'react-i18next'
 
-const App = () => {
+const WIDTH_SCREEN = Dimensions.get('window').width
+const HEIGHT_SCREEN = Dimensions.get('window').height
+
+export const InputNotes = ({ id, TextSaved }: { id: number, TextSaved: string }) => {
+
+    const { t } = useTranslation()
+    const [notesInput, setNotesInput] = useState('')
     const [modalVisible, setModalVisible] = useState(false);
+
+    const updateNotes = async () => {
+        await UpdateNotesOfScannedHistory(id, notesInput)
+    }
+
+    useEffect(() => {
+        if (notesInput.length == 0) return
+
+        const timer = setTimeout(() => {
+            updateNotes()
+        }, 1000)
+
+        return () => clearTimeout(timer)
+    }, [notesInput])
+
+    const TextToShowOnButton = notesInput.length > 0 ? notesInput :
+        TextSaved == '' ? t('notes.placeholder') : TextSaved
+
     return (
         <>
             <Modal
-                animationType="slide"
+                animationType="fade"
                 transparent={true}
                 visible={modalVisible}
                 onRequestClose={() => {
-                    Alert.alert('Modal has been closed.');
                     setModalVisible(!modalVisible);
                 }}>
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
-                        <Text style={styles.modalText}>Hello World!</Text>
+
+                        <TextComponent typeText='titleCard' style={{ textAlign: 'center' }}>{t('notes.title')}</TextComponent>
+
+                        <TextInput
+                            placeholder={TextSaved == '' ? t('notes.placeholder') : TextSaved}
+                            style={{ flex: 1, backgroundColor: COLORS.bgSecondary, padding: 5, borderRadius: 10 }}
+                            multiline={true}
+                            onChangeText={setNotesInput}
+                            value={notesInput}
+                            autoFocus={true}
+                        />
                         <Pressable
-                            style={[styles.button, styles.buttonClose]}
+                            style={styles.buttonModal}
                             onPress={() => setModalVisible(!modalVisible)}>
-                            <Text style={styles.textStyle}>Hide Modal</Text>
+                            <TextComponent style={{ textAlign: 'center' }} typeText='textButton'>{t('button.close')}</TextComponent>
                         </Pressable>
+
                     </View>
                 </View>
             </Modal>
-            <Pressable
-                style={[styles.button, styles.buttonOpen]}
-                onPress={() => setModalVisible(true)}>
-                <Text style={styles.textStyle}>Show Modal</Text>
-            </Pressable>
+
+            <View style={{ marginVertical: 10 }} >
+
+                <TextComponent typeText='graySmall' >{t('notes.title')}</TextComponent>
+
+                <Pressable
+                    onPressIn={() => setModalVisible(true)}
+                    style={{ backgroundColor: COLORS.bgSecondary, padding: 5, borderRadius: 10, borderWidth: 1, borderColor: COLORS.lines }}>
+                    <TextComponent style={{ padding: 2 }} >{TextToShowOnButton}</TextComponent>
+                </Pressable>
+            </View>
         </>
-    );
-};
+    )
+}
 
 const styles = StyleSheet.create({
     centeredView: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: '#00000060',
     },
     modalView: {
-        margin: 20,
-        backgroundColor: 'white',
-        borderRadius: 20,
-        padding: 35,
-        alignItems: 'center',
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
-        elevation: 5,
-    },
-    button: {
+        backgroundColor: COLORS.white,
         borderRadius: 20,
         padding: 10,
-        elevation: 2,
+        gap: 20,
+        width: WIDTH_SCREEN * 0.8,
+        height: HEIGHT_SCREEN * 0.3,
+        maxHeight: 400,
+        maxWidth: 500,
+        ...SHADOW_DEFAULT
     },
-    buttonOpen: {
-        backgroundColor: '#F194FF',
-    },
-    buttonClose: {
-        backgroundColor: '#2196F3',
-    },
-    textStyle: {
-        color: 'white',
-        fontWeight: 'bold',
-        textAlign: 'center',
-    },
-    modalText: {
-        marginBottom: 15,
-        textAlign: 'center',
-    },
+    buttonModal: {
+        backgroundColor: COLORS.blackBg,
+        paddingVertical: 4,
+        paddingHorizontal: 10,
+        borderRadius: 10,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center'
+    }
 });
-
-export default App;
