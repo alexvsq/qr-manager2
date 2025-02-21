@@ -3,16 +3,24 @@ import CamerUser from '@/components/CameraUser'
 import { COLORS, SHADOW_DEFAULT } from '@/utils/constants'
 import ListDynamic from "@/components/ListDynamic";
 import HeaderCardIndex from "@/components/HeaderCardIndex";
-import CardRecentIndex from "@/components/cards/CardRecentIndex";
+import CardRecentIndex from "@/components/cards/CardRecent";
 import DivisorLine from "@/components/ui/DivisorLine";
 import { useScannedHistory } from '@/hooks/useScannedHistory'
 import Animated, { FadeInDown } from 'react-native-reanimated'
+import { router } from 'expo-router'
 
 const WIDTH_SCREEN = Dimensions.get('window').width
 
 export default function Index() {
 
   const { ScannedListHistory } = useScannedHistory()
+
+  const handlePress = (id: number) => {
+    router.push({
+      pathname: '/detailsScanned/[typehistory]/[id]',
+      params: { typehistory: 'scanned', id: id }
+    })
+  }
 
   return (
     <View style={{ flex: 1 }}>
@@ -47,7 +55,7 @@ export default function Index() {
           {
             ScannedListHistory?.slice(0, 5).map((item, index) => (
               <Animated.View key={item.id} entering={FadeInDown.duration(index * 50)}>
-                <CardRecentIndex  {...item} />
+                <CardRecentIndex item={item} handlePress={() => handlePress(item.id)} />
               </Animated.View>
             ))
           }

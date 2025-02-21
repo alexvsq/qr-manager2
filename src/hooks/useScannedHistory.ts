@@ -1,4 +1,4 @@
-import { useScannedListHistoryStore } from "@/store/ScannedHistory.store";
+import { useScannedListHistoryStore } from "@/store/ListsHistory.store";
 import { useEffect } from "react";
 import { ScannedHistoryData } from "@/types/types";
 import { DeleteOneScannedHistory } from "@/functions/sql/setData";

@@ -14,6 +14,19 @@ export const SaveScannedHistory = async (item: ScannedHistoryDataToSave) => {
   }
 };
 
+export const SaveCreateQr = async (item: ScannedHistoryDataToSave) => {
+  try {
+    const { name, timeStamp, value, notes, type, barcodeType } = item;
+    const result = await db.runAsync(
+      "INSERT INTO CreatedQrdHistory (name,timeStamp, value, notes, type, barcodeType) VALUES (?,?,?,?,?,?)",
+      [name, timeStamp, value, notes, type, barcodeType]
+    );
+    return result.lastInsertRowId;
+  } catch (error) {
+    console.error("CreatedQrdHistory", error);
+  }
+};
+
 export const UpdateNotesOfScannedHistory = async (
   id: number,
   notes: string
@@ -28,11 +41,33 @@ export const UpdateNotesOfScannedHistory = async (
   }
 };
 
+export const UpdateNotesOfCreatedHistory = async (
+  id: number,
+  notes: string
+) => {
+  try {
+    await db.runAsync("UPDATE CreatedQrdHistory SET notes = ? WHERE id = ?", [
+      notes,
+      id,
+    ]);
+  } catch (error) {
+    console.error("UpdateNotesOfCreatedHistory", error);
+  }
+};
+
 export const DeleteOneScannedHistory = async (id: number) => {
   try {
     await db.runAsync("DELETE FROM ScannedHistory WHERE id = ?", [id]);
   } catch (error) {
     console.error("DeleteOneScannedHistory", error);
+  }
+};
+
+export const DeleteOneCreatedHistory = async (id: number) => {
+  try {
+    await db.runAsync("DELETE FROM CreatedQrdHistory WHERE id = ?", [id]);
+  } catch (error) {
+    console.error("DeleteOneCreatedHistory", error);
   }
 };
 

@@ -3,17 +3,14 @@ import { COLORS, SHADOW_DEFAULT } from '@/utils/constants'
 import { ScannedHistoryData, } from '@/types/types'
 import { Image } from 'expo-image'
 import { SCANNED_TYPES } from '@/utils/types'
-import { router } from 'expo-router'
 import TextComponent from '@/components/ui/TextComponent'
 
-export default function CardHistory({ item }: { item: ScannedHistoryData }) {
+interface Props {
+    item: ScannedHistoryData
+    handlePress: () => void
+}
 
-    const handlePress = () => {
-        router.push({
-            pathname: '/detailsScanned/[id]',
-            params: { id: item.id }
-        })
-    }
+export default function CardDetails({ item, handlePress }: Props) {
 
     const Icon = SCANNED_TYPES.find((type) => type.codeId === item.type)
 

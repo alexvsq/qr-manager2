@@ -3,16 +3,13 @@ import { Image } from 'expo-image';
 import { ScannedHistoryData } from '@/types/types'
 import { SCANNED_TYPES } from '@/utils/types'
 import TextComponent from '@/components/ui/TextComponent';
-import { router } from 'expo-router'
 
-export default function cardRecentIndex(item: ScannedHistoryData) {
+interface Props {
+    item: ScannedHistoryData
+    handlePress: () => void
+}
 
-    const handlePress = () => {
-        router.push({
-            pathname: '/detailsScanned/[id]',
-            params: { id: item.id }
-        })
-    }
+export default function cardRecent({ item, handlePress }: Props) {
 
     const Icon = SCANNED_TYPES.find((type) => type.codeId === item.type)
     const Name = item.name.length > 18 ? item.name.slice(0, 18) + "..." : item.name

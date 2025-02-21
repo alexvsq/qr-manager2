@@ -16,6 +16,7 @@ export const es = {
     "notes.title": "Notas",
     "button.close": "Cerrar",
     loading: "Cargando",
+    "create.select": "Seleccion uno para crear",
     "placeholder.search": "Buscar",
     "web.title": "Link",
     "contact.fullName": "Nombre completo",

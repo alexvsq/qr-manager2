@@ -29,7 +29,7 @@ export const GetDataForSave = (
   return DataToSave;
 };
 
-const getName = (type: string, value: string) => {
+export const getName = (type: string, value: string) => {
   if (type === "wifi") return getWifiData(value).name;
   if (type === "contact") return getContactData(value).fullName;
   if (type === "email") return getEmailData(value).to;

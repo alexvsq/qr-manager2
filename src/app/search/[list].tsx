@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { useLocalSearchParams } from 'expo-router'
 import { useScannedHistory } from '@/hooks/useScannedHistory'
 import { COLORS } from '@/utils/constants'
-import CardHistory from '@/components/cards/CardHistory'
+import CardHistory from '@/components/cards/CardDetails'
 import { Stack } from 'expo-router'
 import { useTranslation } from 'react-i18next'
 

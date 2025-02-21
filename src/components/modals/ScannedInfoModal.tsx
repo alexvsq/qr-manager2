@@ -31,7 +31,7 @@ export default function App({ modalVisible, setModalVisible, info }: ScannerInfo
 
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                         <TextComponent typeText='titleCard' >{info?.type}</TextComponent>
-                        <IconImage item={info} />
+                        <IconImage item={info?.type} />
                     </View>
 
 

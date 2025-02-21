@@ -11,7 +11,12 @@ import Url from '@/components/InfoEdit/TypeDecoder/Url'
 import { InputNotes } from '@/components/modals/NotesInput'
 import DivisorLine from '@/components/ui/DivisorLine'
 
-export default function Principal({ item }: { item: ScannedHistoryData | null }) {
+interface Props {
+    item: ScannedHistoryData | null;
+    typeHistory: string
+}
+
+export default function Principal({ item, typeHistory }: Props) {
     if (!item) return null
     return (
         <>
@@ -46,7 +51,9 @@ export default function Principal({ item }: { item: ScannedHistoryData | null })
             <DivisorLine />
 
             <InputNotes
-                id={item.id} TextSaved={item.notes}
+                id={item.id}
+                TextSaved={item.notes}
+                typeHistory={typeHistory}
             />
 
         </>

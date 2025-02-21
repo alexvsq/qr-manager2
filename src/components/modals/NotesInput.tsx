@@ -2,20 +2,31 @@ import { View, TextInput, Modal, Pressable, StyleSheet, Dimensions } from 'react
 import { useState, useEffect } from 'react'
 import TextComponent from '@/components/ui/TextComponent'
 import { COLORS, SHADOW_DEFAULT } from '@/utils/constants'
-import { UpdateNotesOfScannedHistory } from '@/functions/sql/setData'
+import { UpdateNotesOfScannedHistory, UpdateNotesOfCreatedHistory } from '@/functions/sql/setData'
 import { useTranslation } from 'react-i18next'
 
 const WIDTH_SCREEN = Dimensions.get('window').width
 const HEIGHT_SCREEN = Dimensions.get('window').height
 
-export const InputNotes = ({ id, TextSaved }: { id: number, TextSaved: string }) => {
+interface Props {
+    id: number;
+    TextSaved: string;
+    typeHistory: string
+}
+
+export const InputNotes = ({ id, TextSaved, typeHistory }: Props) => {
 
     const { t } = useTranslation()
     const [notesInput, setNotesInput] = useState('')
     const [modalVisible, setModalVisible] = useState(false);
 
     const updateNotes = async () => {
-        await UpdateNotesOfScannedHistory(id, notesInput)
+        if (typeHistory == 'scanned') {
+            await UpdateNotesOfScannedHistory(id, notesInput)
+        }
+        if (typeHistory == 'created') {
+            await UpdateNotesOfCreatedHistory(id, notesInput)
+        }
     }
 
     useEffect(() => {

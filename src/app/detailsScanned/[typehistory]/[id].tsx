@@ -1,7 +1,7 @@
 import { View, Dimensions, StyleSheet } from 'react-native'
 import { useEffect, useState } from 'react'
 import { useLocalSearchParams, Stack } from 'expo-router'
-import { GetOneScannedHistory } from '@/functions/sql/getData'
+import { GetOneScannedHistory, GetOneCreatedHistory } from '@/functions/sql/getData'
 import { ScannedHistoryData } from '@/types/types'
 import QRCode from "react-qr-code";
 import { COLORS, SHADOW_DEFAULT } from '@/utils/constants'
@@ -14,20 +14,28 @@ import { useTranslation } from 'react-i18next'
 import { useScannedHistory } from '@/hooks/useScannedHistory'
 import { router } from 'expo-router'
 import Animated, { FlipInEasyX } from 'react-native-reanimated'
+import { useCreatedHistory } from '@/hooks/useCreatedHistory'
 
 const WIDTH_SCREEN = Dimensions.get('screen').width
 
 export default function id() {
 
     const { t } = useTranslation()
-    const { id } = useLocalSearchParams()
+    const { id, typehistory } = useLocalSearchParams()
     const { DeleteScannedHistory } = useScannedHistory()
+    const { DeleteCreatedHistory } = useCreatedHistory()
 
     const [data, setData] = useState<ScannedHistoryData | null>(null)
 
+
     const HandleDelete = async () => {
         try {
-            await DeleteScannedHistory(Number(id))
+            if (typehistory == 'scanned') {
+                await DeleteScannedHistory(Number(id))
+            }
+            if (typehistory == 'created') {
+                await DeleteCreatedHistory(Number(id))
+            }
             router.back()
         } catch (error) {
             console.error('HandleDelete', error)
@@ -35,8 +43,14 @@ export default function id() {
     }
 
     const getData = async () => {
-        const data = await GetOneScannedHistory(Number(id))
-        setData(data)
+        if (typehistory == 'scanned') {
+            const data = await GetOneScannedHistory(Number(id))
+            setData(data)
+        }
+        if (typehistory == 'created') {
+            const data = await GetOneCreatedHistory(Number(id))
+            setData(data)
+        }
     }
 
     useEffect(() => {
@@ -50,7 +64,7 @@ export default function id() {
                 options={{
                     headerTitleAlign: 'center',
                     title: t('title.details'),
-                    headerRight: () => <IconImage item={data} />,
+                    headerRight: () => <IconImage item={data?.type} />,
                     contentStyle: {
                         backgroundColor: COLORS.whiteBg
                     }
@@ -86,6 +100,7 @@ export default function id() {
                             <View style={{ paddingHorizontal: 25, paddingBottom: 20 }}>
 
                                 <DecodeInfoToShow
+                                    typeHistory={typehistory as string}
                                     item={data}
                                 />
 

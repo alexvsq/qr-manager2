@@ -1,11 +1,12 @@
 import { FlatList, View, ScrollView, Pressable, Text } from 'react-native'
 import { useScannedHistory } from '@/hooks/useScannedHistory'
-import CardHistory from '@/components/cards/CardHistory'
+import CardHistory from '@/components/cards/CardDetails'
 import TextComponent from '@/components/ui/TextComponent'
 import { SCANNED_TYPES } from '@/utils/types'
 import { COLORS, SHADOW_DEFAULT } from '@/utils/constants'
 import { useState } from 'react'
 import Animated, { FadeInLeft } from 'react-native-reanimated'
+import { router } from 'expo-router'
 
 export default function history() {
 
@@ -21,7 +22,13 @@ export default function history() {
     if (currentType == 'all') return ScannedListHistory
 
     return ScannedListHistory?.filter((item) => item.type == currentType)
+  }
 
+  const handlePress = (id: number) => {
+    router.push({
+      pathname: '/detailsScanned/[typehistory]/[id]',
+      params: { typehistory: 'scanned', id: id }
+    })
   }
 
 
@@ -81,7 +88,7 @@ export default function history() {
 
               renderItem={({ item, index }) => (
                 <Animated.View entering={FadeInLeft.delay(index * 30)}>
-                  < CardHistory item={item} />
+                  < CardHistory handlePress={() => handlePress(item.id)} item={item} />
                 </Animated.View>
               )}
 

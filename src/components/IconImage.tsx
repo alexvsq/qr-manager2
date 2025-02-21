@@ -3,11 +3,11 @@ import { Image } from 'expo-image'
 import { ScannedHistoryData } from '@/types/types'
 import { SCANNED_TYPES } from '@/utils/types'
 
-export default function IconImage({ item }: { item: ScannedHistoryData | null }) {
+export default function IconImage({ item }: { item: string | null | undefined }) {
 
     if (!item) return null
 
-    const Icon = SCANNED_TYPES.find((type) => type.codeId === item.type)
+    const Icon = SCANNED_TYPES.find((type) => type.codeId === item)
 
     return (
         <View style={{ width: 35, height: 35, padding: 4, backgroundColor: Icon?.color, borderRadius: 999 }}>
