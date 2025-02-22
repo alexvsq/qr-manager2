@@ -27,13 +27,14 @@ export default function id() {
 
     const [data, setData] = useState<ScannedHistoryData | null>(null)
 
+    const TypeHistory = typehistory == 'scanned' ? 'scanned' : 'created'
 
     const HandleDelete = async () => {
         try {
-            if (typehistory == 'scanned') {
+            if (TypeHistory == 'scanned') {
                 await DeleteScannedHistory(Number(id))
             }
-            if (typehistory == 'created') {
+            if (TypeHistory == 'created') {
                 await DeleteCreatedHistory(Number(id))
             }
             router.back()
@@ -43,11 +44,11 @@ export default function id() {
     }
 
     const getData = async () => {
-        if (typehistory == 'scanned') {
+        if (TypeHistory == 'scanned') {
             const data = await GetOneScannedHistory(Number(id))
             setData(data)
         }
-        if (typehistory == 'created') {
+        if (TypeHistory == 'created') {
             const data = await GetOneCreatedHistory(Number(id))
             setData(data)
         }
@@ -100,7 +101,7 @@ export default function id() {
                             <View style={{ paddingHorizontal: 25, paddingBottom: 20 }}>
 
                                 <DecodeInfoToShow
-                                    typeHistory={typehistory as string}
+                                    typeHistory={TypeHistory}
                                     item={data}
                                 />
 

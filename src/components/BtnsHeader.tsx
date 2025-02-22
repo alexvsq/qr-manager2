@@ -1,4 +1,4 @@
-import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, Image, StyleSheet, TouchableOpacity } from 'react-native'
 import { COLORS, SHADOW_DEFAULT } from '@/utils/constants'
 import { useCameraStore } from '@/store/cameraStore'
 import { router } from 'expo-router'
@@ -23,8 +23,8 @@ export const SearchHistoryBtn = () => {
 
     const handlePress = () => {
         router.push({
-            pathname: '/search/[list]',
-            params: { list: 'scanned' }
+            pathname: '/search/[typehistory]',
+            params: { typehistory: 'scanned' }
         })
     }
 

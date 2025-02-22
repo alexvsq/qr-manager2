@@ -4,7 +4,7 @@ import { ScannedHistoryData } from '@/types/types'
 import { useTranslation } from 'react-i18next'
 import TextComponent from '../ui/TextComponent';
 import { COLORS, SHADOW_DEFAULT } from '@/utils/constants'
-import IconImage from '@/components/IconImage'
+import HeaderScannedModal from './HeaderScannedModal'
 
 const WIDTH_SCREEN = Dimensions.get('window').width
 
@@ -29,10 +29,7 @@ export default function App({ modalVisible, setModalVisible, info }: ScannerInfo
             <View style={styles.centeredView}>
                 <View style={styles.modalView}>
 
-                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                        <TextComponent typeText='titleCard' >{info?.type}</TextComponent>
-                        <IconImage item={info?.type} />
-                    </View>
+                    <HeaderScannedModal info={info} />
 
                     <DecoderInfoToShow
                         item={info}

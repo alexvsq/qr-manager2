@@ -31,10 +31,10 @@ function generateWifiQR(
   const wifiString = `WIFI:S:${ssid};T:${encryption};P:${password};;`;
   return wifiString;
 }
-
+//smsto:+51924165577:Hola como estas
 // Función para generar QR de SMS
 function generateSmsQR(phoneNumber: string, message: string = ""): string {
-  const smsString = `SMSTO:${phoneNumber}:${message}`;
+  const smsString = `smsto:${phoneNumber}:${message}`;
   return smsString;
 }
 
