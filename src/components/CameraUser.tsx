@@ -9,6 +9,7 @@ import { SaveScannedHistory } from '@/functions/sql/setData'
 import ScannedInfoToShow from '@/components/modals/ScannedInfoModal'
 import { useSettings } from '@/hooks/useSettings'
 import { VibrationComfirm } from '@/functions/functions'
+import { AuidoConfirm } from '@/functions/functions'
 
 export default function Camera() {
 
@@ -34,6 +35,7 @@ export default function Camera() {
 
             if (newID) {
                 if (configState.vibration) await VibrationComfirm();
+                if (configState.sound) await AuidoConfirm()
                 const newItem = { ...DataToSave, id: newID }
                 setDataScanned(newItem)
                 AddinScannedHistoryList(newItem)

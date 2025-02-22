@@ -1,5 +1,6 @@
 import { setStringAsync } from "expo-clipboard";
-import { notificationAsync, NotificationFeedbackType } from "expo-haptics";
+import { impactAsync, ImpactFeedbackStyle } from "expo-haptics";
+import { Audio } from "expo-av";
 
 export const copyToClipboard = async (text: string) => {
   if (!text || text == "") return;
@@ -12,5 +13,16 @@ export const copyToClipboard = async (text: string) => {
 };
 
 export const VibrationComfirm = async () => {
-  notificationAsync(NotificationFeedbackType.Success);
+  impactAsync(ImpactFeedbackStyle.Heavy);
+};
+
+export const AuidoConfirm = async () => {
+  try {
+    const { sound } = await Audio.Sound.createAsync(
+      require("@/assets/audio/beep.mp3")
+    );
+    await sound.playAsync();
+  } catch (error) {
+    console.error("AuidoConfirm ", error);
+  }
 };
