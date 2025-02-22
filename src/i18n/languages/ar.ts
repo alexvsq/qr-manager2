@@ -46,7 +46,10 @@ export const ar = {
     "config.sound": "الصوت",
     "config.popUp": "الإشعارات المنبثقة",
     "config.delay": "مدة التأخير",
-    "config.reset": "إعادة التعيين",
-    "config.deleteAll": "حذف الكل",
+    "config.reset": "إعادة ضبط الإعدادات",
+    "config.deleteAll": "حذف جميع البيانات",
+    "config.deleteAllConfirm": "هل أنت متأكد أنك تريد حذف جميع البيانات؟",
+    "button.cancel": "إلغاء",
+    "button.delete": "حذف",
   },
 };

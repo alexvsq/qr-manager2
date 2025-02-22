@@ -46,7 +46,10 @@ export const ja = {
     "config.sound": "サウンド",
     "config.popUp": "ポップアップ",
     "config.delay": "遅延時間",
-    "config.reset": "リセット",
-    "config.deleteAll": "すべて削除",
+    "config.reset": "設定をリセット",
+    "config.deleteAll": "すべてのデータを削除",
+    "config.deleteAllConfirm": "本当にすべてのデータを削除しますか？",
+    "button.cancel": "キャンセル",
+    "button.delete": "削除",
   },
 };

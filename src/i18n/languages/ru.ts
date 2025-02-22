@@ -46,7 +46,10 @@ export const ru = {
     "config.sound": "Звук",
     "config.popUp": "Всплывающее окно",
     "config.delay": "Время задержки",
-    "config.reset": "Сброс",
-    "config.deleteAll": "Удалить все",
+    "config.reset": "Сбросить настройки",
+    "config.deleteAll": "Удалить все данные",
+    "config.deleteAllConfirm": "Вы уверены, что хотите удалить все данные?",
+    "button.cancel": "Отмена",
+    "button.delete": "Удалить",
   },
 };

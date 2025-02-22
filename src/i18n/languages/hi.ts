@@ -46,7 +46,10 @@ export const hi = {
     "config.sound": "ध्वनि",
     "config.popUp": "पॉप-अप",
     "config.delay": "प्रतीक्षा समय",
-    "config.reset": "रीसेट करें",
-    "config.deleteAll": "सभी हटाएं",
+    "config.reset": "सेटिंग्स रीसेट करें",
+    "config.deleteAll": "सभी डेटा हटाएं",
+    "config.deleteAllConfirm": "क्या आप वाकई सभी डेटा हटाना चाहते हैं?",
+    "button.cancel": "रद्द करें",
+    "button.delete": "हटाएं",
   },
 };

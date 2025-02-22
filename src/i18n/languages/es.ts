@@ -46,7 +46,11 @@ export const es = {
     "config.sound": "Sonido",
     "config.popUp": "Pop Up",
     "config.delay": "Tiempo de espera",
-    "config.reset": "Resetear",
-    "config.deleteAll": "Borrar Todos",
+    "config.reset": "Reestablecer Configuraciones",
+    "config.deleteAll": "Borrar Todos los Datos",
+    "config.deleteAllConfirm":
+      "¿Estás seguro de que quieres borrar todos los datos?",
+    "button.cancel": "Cancelar",
+    "button.delete": "Borrar",
   },
 };

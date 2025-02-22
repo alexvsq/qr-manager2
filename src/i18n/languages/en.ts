@@ -46,7 +46,10 @@ export const en = {
     "config.sound": "Sound",
     "config.popUp": "Pop Up",
     "config.delay": "Delay Time",
-    "config.reset": "Reset",
-    "config.deleteAll": "Delete All",
+    "config.reset": "Reset Settings",
+    "config.deleteAll": "Delete All Data",
+    "config.deleteAllConfirm": "Are you sure you want to delete all data?",
+    "button.cancel": "Cancel",
+    "button.delete": "Delete",
   },
 };

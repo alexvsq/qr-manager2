@@ -46,7 +46,11 @@ export const pt = {
     "config.sound": "Som",
     "config.popUp": "Pop-up",
     "config.delay": "Tempo de espera",
-    "config.reset": "Redefinir",
-    "config.deleteAll": "Excluir Tudo",
+    "config.reset": "Redefinir Configurações",
+    "config.deleteAll": "Excluir Todos os Dados",
+    "config.deleteAllConfirm":
+      "Tem certeza de que deseja excluir todos os dados?",
+    "button.cancel": "Cancelar",
+    "button.delete": "Excluir",
   },
 };

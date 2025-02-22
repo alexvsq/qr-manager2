@@ -46,7 +46,11 @@ export const fr = {
     "config.sound": "Son",
     "config.popUp": "Pop-up",
     "config.delay": "Temps d'attente",
-    "config.reset": "Réinitialiser",
-    "config.deleteAll": "Tout supprimer",
+    "config.reset": "Réinitialiser les Paramètres",
+    "config.deleteAll": "Supprimer Toutes les Données",
+    "config.deleteAllConfirm":
+      "Êtes-vous sûr de vouloir supprimer toutes les données?",
+    "button.cancel": "Annuler",
+    "button.delete": "Supprimer",
   },
 };

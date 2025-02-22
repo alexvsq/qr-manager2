@@ -46,7 +46,10 @@ export const id = {
     "config.sound": "Suara",
     "config.popUp": "Pop Up",
     "config.delay": "Waktu Tunggu",
-    "config.reset": "Setel Ulang",
-    "config.deleteAll": "Hapus Semua",
+    "config.reset": "Setel Ulang Pengaturan",
+    "config.deleteAll": "Hapus Semua Data",
+    "config.deleteAllConfirm": "Apakah Anda yakin ingin menghapus semua data?",
+    "button.cancel": "Batal",
+    "button.delete": "Hapus",
   },
 };

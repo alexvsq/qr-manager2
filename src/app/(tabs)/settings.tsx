@@ -104,7 +104,7 @@ export default function settings() {
 
             <TextComponent typeText='titleCard'>{t('config.otherconfigs')}</TextComponent>
 
-            <View style={{ flexDirection: 'row', gap: 10, marginVertical: 10, justifyContent: 'center', }}>
+            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 10, marginVertical: 10, justifyContent: 'center', }}>
 
                 <TouchableOpacity
                     onPress={setDefaultConfig}

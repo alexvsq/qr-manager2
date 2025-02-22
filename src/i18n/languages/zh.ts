@@ -46,7 +46,10 @@ export const zh = {
     "config.sound": "声音",
     "config.popUp": "弹出窗口",
     "config.delay": "延迟时间",
-    "config.reset": "重置",
-    "config.deleteAll": "删除所有",
+    "config.reset": "重置设置",
+    "config.deleteAll": "删除所有数据",
+    "config.deleteAllConfirm": "您确定要删除所有数据吗？",
+    "button.cancel": "取消",
+    "button.delete": "删除",
   },
 };
