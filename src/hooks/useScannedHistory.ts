@@ -36,6 +36,14 @@ export function useScannedHistory() {
     }
   };
 
+  const DeleteListScannedHistory = async () => {
+    try {
+      SetScannedListHistory(null);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     GetScannedAllRows()
       .then((data) => {
@@ -49,5 +57,10 @@ export function useScannedHistory() {
       });
   }, []);
 
-  return { ScannedListHistory, AddinScannedHistoryList, DeleteScannedHistory };
+  return {
+    ScannedListHistory,
+    AddinScannedHistoryList,
+    DeleteScannedHistory,
+    DeleteListScannedHistory,
+  };
 }

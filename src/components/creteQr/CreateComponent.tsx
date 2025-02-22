@@ -3,6 +3,10 @@ import { COLORS, PADDING_HORIZONTAL, SHADOW_DEFAULT } from '@/utils/constants'
 import Wifi from '@/components/creteQr/TypesQr/wifi'
 import Web from '@/components/creteQr/TypesQr/Web'
 import Contact from '@/components/creteQr/TypesQr/Contact'
+import Email from '@/components/creteQr/TypesQr/Email'
+import Number from '@/components/creteQr/TypesQr/Number'
+import Sms from '@/components/creteQr/TypesQr/Sms'
+import TextQr from '@/components/creteQr/TypesQr/TextQr'
 
 export default function CreateComponent({ type }: { type: string }) {
 
@@ -16,6 +20,18 @@ export default function CreateComponent({ type }: { type: string }) {
             }
             {
                 type == 'contact' && <Contact />
+            }
+            {
+                type == 'email' && <Email />
+            }
+            {
+                type == 'number' && <Number />
+            }
+            {
+                type == 'sms' && <Sms />
+            }
+            {
+                type == 'text' && <TextQr />
             }
         </View>
     )

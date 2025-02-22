@@ -16,3 +16,11 @@ export interface ScannedHistoryData {
   type: string;
   barcodeType: string;
 }
+
+export interface Config {
+  vibration: boolean;
+  sound: boolean;
+  showPopUp: boolean;
+  SecondDelay: number;
+  language: string;
+}

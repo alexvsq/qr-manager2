@@ -8,55 +8,34 @@ import { useCreatedHistory } from '@/hooks/useCreatedHistory'
 import { router } from 'expo-router'
 import { BtnCreateQr } from '@/components/creteQr/Components'
 
-export default function Email() {
+export default function TextQr() {
 
     const { t } = useTranslation()
     const Generate = new GenerateQr()
     const { AddInCreatedListHistory } = useCreatedHistory()
 
-    const [dataEmail, setDataEmail] = useState({
-        to: '',
-        subject: '',
-        body: '',
-    })
+    const [dataText, setDataText] = useState('')
 
     const CreateAndGoToQr = async () => {
-        const newQr = Generate.generateEmail(dataEmail.to, dataEmail.subject, dataEmail.body)
+        const newQr = Generate.generateText(dataText)
         console.log(newQr);
 
-        const newID = await AddInCreatedListHistory(newQr, 'email')
+        const newID = await AddInCreatedListHistory(newQr, 'text')
         if (!newID) throw new Error('newID is null')
         router.push({
             pathname: '/detailsScanned/[typehistory]/[id]',
             params: { typehistory: 'created', id: newID }
         })
     }
-
-
     return (
         <View>
-            <TextComponent typeText='graySmall' >{t('email.to')}</TextComponent>
+            <TextComponent typeText='graySmall' >{t('text.title')}</TextComponent>
             <TextInput
                 style={styles.InputStyle}
-                placeholder="example@gmail.com"
-                keyboardType='email-address'
-                autoCapitalize='none'
-                value={dataEmail.to}
-                onChangeText={(text) => setDataEmail({ ...dataEmail, to: text })}
-            />
-            <TextComponent typeText='graySmall' >{t('email.subject')}</TextComponent>
-            <TextInput
-                style={styles.InputStyle}
-                placeholder="Subject"
-                value={dataEmail.subject}
-                onChangeText={(text) => setDataEmail({ ...dataEmail, subject: text })}
-            />
-            <TextComponent typeText='graySmall' >{t('email.body')}</TextComponent>
-            <TextInput
-                style={styles.InputStyle}
-                placeholder="Body"
-                value={dataEmail.body}
-                onChangeText={(text) => setDataEmail({ ...dataEmail, body: text })}
+                placeholder="Text"
+                value={dataText}
+                onChangeText={(text) => setDataText(text)}
+                multiline={true}
             />
 
             <View>

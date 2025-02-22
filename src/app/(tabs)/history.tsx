@@ -1,4 +1,4 @@
-import { FlatList, View, ScrollView, Pressable, Text } from 'react-native'
+import { FlatList, View, Pressable, Text } from 'react-native'
 import { useScannedHistory } from '@/hooks/useScannedHistory'
 import CardHistory from '@/components/cards/CardDetails'
 import TextComponent from '@/components/ui/TextComponent'
@@ -7,6 +7,7 @@ import { COLORS, SHADOW_DEFAULT } from '@/utils/constants'
 import { useState } from 'react'
 import Animated, { FadeInLeft } from 'react-native-reanimated'
 import { router } from 'expo-router'
+import EmptyData from '@/components/EmptyData'
 
 export default function history() {
 
@@ -42,7 +43,7 @@ export default function history() {
     <View style={{ flex: 1 }}>
       {
         !ScannedListHistory
-          ? <TextComponent>No history</TextComponent>
+          ? <EmptyData />
           :
           <View>
 

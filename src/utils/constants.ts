@@ -20,3 +20,58 @@ export const SHADOW_DEFAULT = {
   shadowRadius: 10,
   elevation: 3,
 };
+
+export const CONFIG_SCANNED_DEFAULT = {
+  vibration: true,
+  sound: false,
+  showPopUp: true,
+  SecondDelay: 2,
+  language: "en",
+};
+
+export const LANGUAGES = [
+  {
+    code: "en",
+    name: "English",
+  },
+  {
+    code: "es",
+    name: "Español",
+  },
+  {
+    code: "ar",
+    name: "العربية",
+  },
+  {
+    code: "fr",
+    name: "Français",
+  },
+  {
+    code: "de",
+    name: "Deutsch",
+  },
+  {
+    code: "ja",
+    name: "日本語",
+  },
+  {
+    code: "pt",
+    name: "Português",
+  },
+  {
+    code: "ru",
+    name: "Русский",
+  },
+  {
+    code: "hi",
+    name: "हिन्दी",
+  },
+  {
+    code: "zh",
+    name: "中文",
+  },
+  {
+    code: "id",
+    name: "Bahasa Indonesia",
+  },
+];

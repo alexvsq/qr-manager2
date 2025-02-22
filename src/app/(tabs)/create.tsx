@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import TextComponent from '@/components/ui/TextComponent'
 import { COLORS, PADDING_HORIZONTAL, SHADOW_DEFAULT } from '@/utils/constants'
@@ -8,7 +8,10 @@ import ListDynamic from '@/components/ListDynamic'
 import { router } from 'expo-router'
 import { useCreatedHistory } from '@/hooks/useCreatedHistory'
 import Animated, { FadeInDown } from 'react-native-reanimated'
-import CardHistory from '@/components/cards/CardDetails'
+import CardRecent from '@/components/cards/CardRecent'
+import DivisorLine from '@/components/ui/DivisorLine'
+import HeaderCardCreate from '@/components/HeaderCreates'
+import EmptyData from '@/components/EmptyData'
 
 export default function Create() {
 
@@ -52,13 +55,23 @@ export default function Create() {
                 </View>
             </View>
             <ListDynamic>
-                {
-                    CreatedListHistory?.map((item, index) => (
+                <View style={{ paddingHorizontal: 25 }}>
+                    <HeaderCardCreate />
+                </View>
+                <FlatList
+                    data={CreatedListHistory?.slice(0, 10)}
+                    ListEmptyComponent={() => <EmptyData />}
+                    keyExtractor={(item) => item.id + ""}
+                    showsVerticalScrollIndicator={false}
+                    contentContainerStyle={{ paddingHorizontal: 20 }}
+
+                    renderItem={({ item, index }) => (
                         <Animated.View key={item.id} entering={FadeInDown.delay(index * 50)}>
-                            <CardHistory item={item} handlePress={() => handlePressToDetails(item.id)} />
+                            <CardRecent item={item} handlePress={() => handlePressToDetails(item.id)} />
                         </Animated.View>
-                    ))
-                }
+                    )}
+                    ItemSeparatorComponent={() => <DivisorLine />}
+                />
             </ListDynamic>
 
         </>
@@ -76,6 +89,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         gap: 10,
-        // ...SHADOW_DEFAULT
+        ...SHADOW_DEFAULT
     }
 })

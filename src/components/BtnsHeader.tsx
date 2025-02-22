@@ -24,7 +24,7 @@ export const SearchHistoryBtn = () => {
     const handlePress = () => {
         router.push({
             pathname: '/search/[list]',
-            params: { list: 'scannedHistory' }
+            params: { list: 'scanned' }
         })
     }
 

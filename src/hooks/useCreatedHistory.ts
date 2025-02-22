@@ -56,6 +56,14 @@ export function useCreatedHistory() {
     }
   };
 
+  const DeleteListCreatedHistory = async () => {
+    try {
+      SetCreatedListHistory(null);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     GetAllCreatedQr()
       .then((data) => {
@@ -69,5 +77,10 @@ export function useCreatedHistory() {
       });
   }, []);
 
-  return { CreatedListHistory, AddInCreatedListHistory, DeleteCreatedHistory };
+  return {
+    CreatedListHistory,
+    AddInCreatedListHistory,
+    DeleteCreatedHistory,
+    DeleteListCreatedHistory,
+  };
 }

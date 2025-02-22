@@ -8,23 +8,22 @@ import { useCreatedHistory } from '@/hooks/useCreatedHistory'
 import { router } from 'expo-router'
 import { BtnCreateQr } from '@/components/creteQr/Components'
 
-export default function Email() {
+export default function Sms() {
 
     const { t } = useTranslation()
     const Generate = new GenerateQr()
     const { AddInCreatedListHistory } = useCreatedHistory()
 
-    const [dataEmail, setDataEmail] = useState({
-        to: '',
-        subject: '',
-        body: '',
+    const [dataSms, setDataSms] = useState({
+        phoneNumber: '',
+        message: '',
     })
 
     const CreateAndGoToQr = async () => {
-        const newQr = Generate.generateEmail(dataEmail.to, dataEmail.subject, dataEmail.body)
+        const newQr = Generate.generateSms(dataSms.phoneNumber, dataSms.message)
         console.log(newQr);
 
-        const newID = await AddInCreatedListHistory(newQr, 'email')
+        const newID = await AddInCreatedListHistory(newQr, 'sms')
         if (!newID) throw new Error('newID is null')
         router.push({
             pathname: '/detailsScanned/[typehistory]/[id]',
@@ -32,31 +31,22 @@ export default function Email() {
         })
     }
 
-
     return (
         <View>
-            <TextComponent typeText='graySmall' >{t('email.to')}</TextComponent>
+            <TextComponent>{t('sms.phoneNumber')}</TextComponent>
             <TextInput
                 style={styles.InputStyle}
-                placeholder="example@gmail.com"
-                keyboardType='email-address'
-                autoCapitalize='none'
-                value={dataEmail.to}
-                onChangeText={(text) => setDataEmail({ ...dataEmail, to: text })}
+                placeholder="+123456789"
+                keyboardType='numeric'
+                value={dataSms.phoneNumber}
+                onChangeText={(text) => setDataSms({ ...dataSms, phoneNumber: text })}
             />
-            <TextComponent typeText='graySmall' >{t('email.subject')}</TextComponent>
+            <TextComponent>{t('sms.message')}</TextComponent>
             <TextInput
                 style={styles.InputStyle}
-                placeholder="Subject"
-                value={dataEmail.subject}
-                onChangeText={(text) => setDataEmail({ ...dataEmail, subject: text })}
-            />
-            <TextComponent typeText='graySmall' >{t('email.body')}</TextComponent>
-            <TextInput
-                style={styles.InputStyle}
-                placeholder="Body"
-                value={dataEmail.body}
-                onChangeText={(text) => setDataEmail({ ...dataEmail, body: text })}
+                placeholder="Message"
+                value={dataSms.message}
+                onChangeText={(text) => setDataSms({ ...dataSms, message: text })}
             />
 
             <View>

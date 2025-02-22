@@ -7,12 +7,16 @@ import { GetDataForSave } from '@/functions/OrderData'
 import { ScannedHistoryData } from '@/types/types'
 import { SaveScannedHistory } from '@/functions/sql/setData'
 import ScannedInfoToShow from '@/components/modals/ScannedInfoModal'
+import { useSettings } from '@/hooks/useSettings'
+import { VibrationComfirm } from '@/functions/functions'
 
 export default function Camera() {
 
     const Facing = useCameraStore((state) => state.facing)
     const Flash = useCameraStore((state) => state.flash)
     const { AddinScannedHistoryList } = useScannedHistory()
+    const { configState } = useSettings()
+
 
     const [permission, requestPermission] = useCameraPermissions();
     const [dataScanned, setDataScanned] = useState<ScannedHistoryData | null>(null)
@@ -29,6 +33,7 @@ export default function Camera() {
             const newID = await SaveScannedHistory(DataToSave);
 
             if (newID) {
+                if (configState.vibration) await VibrationComfirm();
                 const newItem = { ...DataToSave, id: newID }
                 setDataScanned(newItem)
                 AddinScannedHistoryList(newItem)
@@ -37,7 +42,7 @@ export default function Camera() {
 
             setTimeout(() => {
                 isActiveToScannRef.current = true;
-            }, 2000);
+            }, configState.SecondDelay * 1000);
 
         } catch (error) {
             isActiveToScannRef.current = true;

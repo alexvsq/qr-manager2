@@ -1,37 +1,149 @@
-import { View, Text, Button } from 'react-native'
-import { deleteall } from '@/functions/sql/setData'
-import { GetScannedAllRows } from '@/functions/sql/getData'
+import { View, ScrollView, StyleSheet, Switch, TouchableOpacity, TextInput, Alert } from 'react-native'
 import { useTranslation } from 'react-i18next'
-import i18n from 'i18next'
+import TextComponent from '@/components/ui/TextComponent'
+import { PADDING_HORIZONTAL, COLORS, SHADOW_DEFAULT } from '@/utils/constants'
+import DivisorLine from '@/components/ui/DivisorLine'
+import { useSettings } from '@/hooks/useSettings'
+import { LANGUAGES } from '@/utils/constants'
+import { useState, useEffect } from 'react'
 
 export default function settings() {
 
     const { t } = useTranslation()
+    const { toggleLanguage, DeleteAll, configState, saveNewConfig, setDefaultConfig } = useSettings()
 
-    const toggleLanguage = () => {
-        i18n.changeLanguage(i18n.language === 'en' ? 'es' : 'en')
+    const [InputSeconds, setInputSeconds] = useState(configState.SecondDelay.toString())
+
+    const comfirmDeleteAll = async () => {
+        Alert.alert(
+            t('config.deleteAll'),
+            t('config.deleteAllConfirm'),
+            [
+                {
+                    text: t('button.cancel'),
+                    onPress: () => console.log('Cancel Pressed'),
+                    style: 'cancel'
+                },
+                { text: t('button.delete'), onPress: () => DeleteAll() }
+            ],
+            { cancelable: false }
+        )
     }
 
-    const init = async () => {
-        const data = await GetScannedAllRows()
-        console.log(data);
-    }
 
-    const deleteRows = async () => {
-        await deleteall()
-    }
+
+    useEffect(() => {
+        if (InputSeconds.length >= 2 || InputSeconds == '0' || InputSeconds == '') return
+        const timeOut = setTimeout(() => {
+            saveNewConfig('SecondDelay', Number(InputSeconds))
+        }, 1000);
+        return () => clearTimeout(timeOut);
+    }, [InputSeconds])
 
     return (
-        <View>
-            <Text>settings</Text>
+        <ScrollView contentContainerStyle={{ paddingHorizontal: PADDING_HORIZONTAL }}>
 
-            <Text style={{ fontSize: 20 }}>{t('Welcome to React')}</Text>
+            <TextComponent typeText='titleCard'>{t('config.title.scanner')}</TextComponent>
 
-            <Button title="CHANGE LANGUAGE TEST" onPress={toggleLanguage} />
+            <View style={styles.containerCard}>
 
-            <Button title="Show Data in Console" onPress={init} />
+                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <TextComponent >{t('config.vibration')}</TextComponent>
+                    <Switch
+                        onValueChange={(value) => saveNewConfig('vibration', value)}
+                        value={configState.vibration}
+                    />
+                </View>
+                <DivisorLine />
+                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <TextComponent >{t('config.sound')}</TextComponent>
+                    <Switch
+                        onValueChange={(value) => saveNewConfig('sound', value)}
+                        value={configState.sound}
+                    />
+                </View>
+                <DivisorLine />
+                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <TextComponent >{t('config.popUp')}</TextComponent>
+                    <Switch
+                        onValueChange={(value) => saveNewConfig('showPopUp', value)}
+                        value={configState.showPopUp}
+                    />
+                </View>
+                <DivisorLine />
+                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <TextComponent >{t('config.delay')} <TextComponent typeText='graySmall'>(s)</TextComponent></TextComponent>
+                    <TextInput
+                        style={styles.inputDelay}
+                        maxLength={1}
+                        keyboardType='numeric'
+                        placeholder={configState.SecondDelay.toString()}
+                        onChangeText={(text) => setInputSeconds(text)}
+                        value={InputSeconds}
+                        onFocus={() => setInputSeconds('')}
+                    />
+                </View>
 
-            <Button title="DELETE Data" onPress={deleteRows} />
-        </View>
+            </View>
+
+            <TextComponent typeText='titleCard'>{t('config.languages')}</TextComponent>
+
+            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 10, marginVertical: 15 }}>
+                {
+                    LANGUAGES.map((item, index) => (
+                        <TouchableOpacity
+                            onPress={() => toggleLanguage(item.code)}
+                            key={item.code}
+                            style={[styles.buttonLang, configState.language == item.code ? { backgroundColor: COLORS.blackBg } : { backgroundColor: COLORS.whiteBg }]}>
+                            <TextComponent typeText={configState.language == item.code ? 'white' : 'default'} >{item.name}</TextComponent>
+                        </TouchableOpacity>
+                    ))
+                }
+            </View>
+
+
+            <TextComponent typeText='titleCard'>{t('config.otherconfigs')}</TextComponent>
+
+            <View style={{ flexDirection: 'row', gap: 10, marginVertical: 10, justifyContent: 'center', }}>
+
+                <TouchableOpacity
+                    onPress={setDefaultConfig}
+                    style={styles.button2}>
+                    <TextComponent typeText='white'>{t('config.reset')}</TextComponent>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    onPress={comfirmDeleteAll}
+                    style={styles.button2}>
+                    <TextComponent typeText='white'>{t('config.deleteAll')}</TextComponent>
+                </TouchableOpacity>
+
+            </View>
+        </ScrollView>
     )
 }
+
+const styles = StyleSheet.create({
+    containerCard: {
+        padding: 10,
+        borderRadius: 20,
+        marginVertical: 10,
+        backgroundColor: COLORS.white,
+        ...SHADOW_DEFAULT
+    },
+    buttonLang: {
+        paddingVertical: 6,
+        paddingHorizontal: 12,
+        borderRadius: 10,
+        ...SHADOW_DEFAULT
+    },
+    button2: {
+        backgroundColor: COLORS.blackBg,
+        paddingVertical: 6,
+        paddingHorizontal: 12,
+        borderRadius: 10,
+        ...SHADOW_DEFAULT
+    },
+    inputDelay: {
+        backgroundColor: COLORS.bgSecondary, paddingVertical: 6, paddingHorizontal: 12, borderRadius: 10, marginTop: 10, minWidth: 50, textAlign: 'center'
+    }
+})

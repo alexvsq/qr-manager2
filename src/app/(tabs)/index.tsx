@@ -8,6 +8,7 @@ import DivisorLine from "@/components/ui/DivisorLine";
 import { useScannedHistory } from '@/hooks/useScannedHistory'
 import Animated, { FadeInDown } from 'react-native-reanimated'
 import { router } from 'expo-router'
+import EmptyData from '@/components/EmptyData'
 
 const WIDTH_SCREEN = Dimensions.get('window').width
 
@@ -42,23 +43,26 @@ export default function Index() {
 
           <HeaderCardIndex />
 
-          {/*           <FlatList
+          <FlatList
             data={ScannedListHistory?.slice(0, 8)}
+            ListEmptyComponent={() => <EmptyData />}
             keyExtractor={(item) => item.id + ""}
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{ paddingBottom: 30 }}
-            renderItem={({ item }) => (
-              <CardRecentIndex  {...item} />
+            renderItem={({ item, index }) => (
+              <Animated.View key={item.id} entering={FadeInDown.duration(index * 50)}>
+                <CardRecentIndex item={item} handlePress={() => handlePress(item.id)} />
+              </Animated.View>
             )}
             ItemSeparatorComponent={() => <DivisorLine />}
-          /> */}
-          {
+          />
+          {/* {
             ScannedListHistory?.slice(0, 5).map((item, index) => (
               <Animated.View key={item.id} entering={FadeInDown.duration(index * 50)}>
                 <CardRecentIndex item={item} handlePress={() => handlePress(item.id)} />
               </Animated.View>
             ))
-          }
+          } */}
 
 
         </View>

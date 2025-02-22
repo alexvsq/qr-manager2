@@ -45,24 +45,28 @@ export default function Contact() {
                 style={styles.InputStyle}
                 onChangeText={(text) => setDataContact({ ...dataContact, firstName: text })}
                 value={dataContact.firstName}
+                placeholder='Name'
             />
             <TextComponent typeText='graySmall' >{t('contact.organization')}</TextComponent>
             <TextInput
                 style={styles.InputStyle}
                 onChangeText={(text) => setDataContact({ ...dataContact, organization: text })}
                 value={dataContact.organization}
+                placeholder='Organization'
             />
             <TextComponent typeText='graySmall' >{t('contact.title')}</TextComponent>
             <TextInput
                 style={styles.InputStyle}
                 onChangeText={(text) => setDataContact({ ...dataContact, title: text })}
                 value={dataContact.title}
+                placeholder='Title'
             />
             <TextComponent typeText='graySmall' >{t('contact.homePhone')}</TextComponent>
             <TextInput
                 style={styles.InputStyle}
                 onChangeText={(text) => setDataContact({ ...dataContact, phone: text })}
                 value={dataContact.phone}
+                placeholder='Phone'
             />
             <TextComponent typeText='graySmall' >{t('contact.email')}</TextComponent>
             <TextInput
@@ -76,6 +80,7 @@ export default function Contact() {
                 style={styles.InputStyle}
                 onChangeText={(text) => setDataContact({ ...dataContact, address: text })}
                 value={dataContact.address}
+                placeholder='Address'
             />
 
             <View>

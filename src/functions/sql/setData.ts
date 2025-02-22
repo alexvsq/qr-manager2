@@ -73,8 +73,11 @@ export const DeleteOneCreatedHistory = async (id: number) => {
 
 export const deleteall = async () => {
   try {
-    const res = db.execSync("DROP TABLE IF EXISTS ScannedHistory");
+    const res = await db.execAsync("DELETE FROM ScannedHistory");
+    const res2 = await db.execAsync("DELETE FROM CreatedQrdHistory");
+
     console.log(res);
+    console.log(res2);
   } catch (error) {
     console.error(error);
   }

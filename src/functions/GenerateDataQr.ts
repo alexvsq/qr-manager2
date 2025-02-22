@@ -34,7 +34,7 @@ function generateWifiQR(
 
 // Función para generar QR de SMS
 function generateSmsQR(phoneNumber: string, message: string = ""): string {
-  const smsString = `SMS:${phoneNumber}:${message}`;
+  const smsString = `SMSTO:${phoneNumber}:${message}`;
   return smsString;
 }
 
@@ -89,6 +89,16 @@ function generateTextQR(text: string): string {
   return text;
 }
 
+function generateTelQR(phoneNumber: string): string {
+  if (!phoneNumber.startsWith("+") && !/^\d+$/.test(phoneNumber)) {
+    throw new Error(
+      "El número de teléfono debe estar en formato internacional con '+' o ser solo dígitos."
+    );
+  }
+
+  return `TEL:${phoneNumber}`;
+}
+
 // Clase para centralizar todas las funciones de generación de QR
 class QRCodeGenerator {
   generateWifi = generateWifiQR;
@@ -97,6 +107,7 @@ class QRCodeGenerator {
   generateVCard = generateVCardQR;
   generateUrl = generateUrlQR;
   generateText = generateTextQR;
+  generateTel = generateTelQR;
 }
 
 export default QRCodeGenerator;
