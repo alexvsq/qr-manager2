@@ -13,7 +13,7 @@ import DivisorLine from '@/components/ui/DivisorLine'
 
 interface Props {
     item: ScannedHistoryData | null;
-    typeHistory: string
+    typeHistory: 'scanned' | 'created'
 }
 
 export default function Principal({ item, typeHistory }: Props) {

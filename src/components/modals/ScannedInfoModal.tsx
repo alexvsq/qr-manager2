@@ -34,11 +34,10 @@ export default function App({ modalVisible, setModalVisible, info }: ScannerInfo
                         <IconImage item={info?.type} />
                     </View>
 
-
                     <DecoderInfoToShow
                         item={info}
+                        typeHistory='scanned'
                     />
-
 
                     <Pressable
                         style={styles.buttonModal}

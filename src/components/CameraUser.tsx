@@ -8,8 +8,7 @@ import { ScannedHistoryData } from '@/types/types'
 import { SaveScannedHistory } from '@/functions/sql/setData'
 import ScannedInfoToShow from '@/components/modals/ScannedInfoModal'
 import { useSettings } from '@/hooks/useSettings'
-import { VibrationComfirm } from '@/functions/functions'
-import { AuidoConfirm } from '@/functions/functions'
+import { VibrationComfirm, AuidoConfirm } from '@/functions/functions'
 
 export default function Camera() {
 
@@ -17,7 +16,6 @@ export default function Camera() {
     const Flash = useCameraStore((state) => state.flash)
     const { AddinScannedHistoryList } = useScannedHistory()
     const { configState } = useSettings()
-
 
     const [permission, requestPermission] = useCameraPermissions();
     const [dataScanned, setDataScanned] = useState<ScannedHistoryData | null>(null)
