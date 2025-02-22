@@ -34,12 +34,18 @@ export default function Camera() {
             const newID = await SaveScannedHistory(DataToSave);
 
             if (newID) {
-                if (configState.vibration) await VibrationComfirm();
-                if (configState.sound) await AuidoConfirm()
+                if (configState.vibration) await VibrationComfirm(); // Vibration
+                if (configState.sound) await AuidoConfirm() // Sound
+
                 const newItem = { ...DataToSave, id: newID }
-                setDataScanned(newItem)
-                AddinScannedHistoryList(newItem)
-                setModalVisible(true)
+                if (configState.showPopUp) {
+                    setDataScanned(newItem)
+                    AddinScannedHistoryList(newItem)
+                    setModalVisible(true)
+                } else {
+                    AddinScannedHistoryList(newItem)
+                }
+
             }
 
             setTimeout(() => {
