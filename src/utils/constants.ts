@@ -6,6 +6,7 @@ export const COLORS = {
   lines: "#E5E5E5",
   textGray: "#A8A8A8",
   bgSecondary: "#F7F7F7",
+  blue: "#3A86FF",
 };
 
 export const PADDING_HORIZONTAL = 12;
