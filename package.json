@@ -31,7 +31,7 @@
     "expo-media-library": "^17.0.6",
     "expo-navigation-bar": "~4.0.8",
     "expo-router": "~4.0.17",
-    "expo-sharing": "^13.0.1",
+    "expo-sharing": "~13.0.1",
     "expo-splash-screen": "~0.29.22",
     "expo-sqlite": "~15.1.2",
     "expo-status-bar": "~2.0.1",
@@ -53,7 +53,9 @@
     "react-native-web": "~0.19.13",
     "react-native-webview": "13.6.4",
     "reanimated-color-picker": "^3.0.6",
-    "zustand": "^5.0.3"
+    "zustand": "^5.0.3",
+    "expo-file-system": "~18.0.11",
+    "expo-image-picker": "~16.0.6"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
