@@ -50,6 +50,9 @@ export default function settings() {
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                     <TextComponent >{t('config.vibration')}</TextComponent>
                     <Switch
+                        style={styles.switchStyle}
+                        trackColor={{ false: COLORS.lines, true: COLORS.lines }}
+                        thumbColor={configState.vibration ? COLORS.blue : COLORS.white}
                         onValueChange={(value) => saveNewConfig('vibration', value)}
                         value={configState.vibration}
                     />
@@ -58,6 +61,9 @@ export default function settings() {
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                     <TextComponent >{t('config.sound')}</TextComponent>
                     <Switch
+                        style={styles.switchStyle}
+                        trackColor={{ false: COLORS.lines, true: COLORS.lines }}
+                        thumbColor={configState.sound ? COLORS.blue : COLORS.white}
                         onValueChange={(value) => saveNewConfig('sound', value)}
                         value={configState.sound}
                     />
@@ -66,6 +72,9 @@ export default function settings() {
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                     <TextComponent >{t('config.popUp')}</TextComponent>
                     <Switch
+                        style={styles.switchStyle}
+                        trackColor={{ false: COLORS.lines, true: COLORS.lines }}
+                        thumbColor={configState.showPopUp ? COLORS.blue : COLORS.white}
                         onValueChange={(value) => saveNewConfig('showPopUp', value)}
                         value={configState.showPopUp}
                     />
@@ -145,5 +154,8 @@ const styles = StyleSheet.create({
     },
     inputDelay: {
         backgroundColor: COLORS.bgSecondary, paddingVertical: 6, paddingHorizontal: 12, borderRadius: 10, marginTop: 10, minWidth: 50, textAlign: 'center'
+    },
+    switchStyle: {
+        minHeight: 45
     }
 })
