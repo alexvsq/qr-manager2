@@ -73,6 +73,8 @@ export const DeleteOneCreatedHistory = async (id: number) => {
 
 export const deleteall = async () => {
   try {
+    //const res = await db.execAsync("DROP TABLE ScannedHistory");
+    //const res2 = await db.execAsync("DROP TABLE CreatedQrdHistory");
     const res = await db.execAsync("DELETE FROM ScannedHistory");
     const res2 = await db.execAsync("DELETE FROM CreatedQrdHistory");
 
