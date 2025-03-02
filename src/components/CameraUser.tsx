@@ -1,5 +1,5 @@
-import { Button } from 'react-native'
-import { useRef, useState } from 'react'
+import { Button, Text } from 'react-native'
+import { useRef, useState, useEffect } from 'react'
 import { CameraView, useCameraPermissions, BarcodeScanningResult } from 'expo-camera';
 import { useCameraStore } from '@/store/cameraStore'
 import { useScannedHistory } from '@/hooks/useScannedHistory'
@@ -56,6 +56,12 @@ export default function Camera() {
         }
     };
 
+    useEffect(() => {
+        if (!permission?.granted) {
+            requestPermission()
+        }
+    }, [])
+
     return (
         <>
             <CameraView
@@ -67,10 +73,9 @@ export default function Camera() {
                 }}
                 onBarcodeScanned={handleBarcodeScanned}
             >
-                {
-                    !permission &&
-                    <Button title="Request Camera Permissions" onPress={requestPermission} />
-                }
+
+
+
             </CameraView>
 
             <ScannedInfoToShow
