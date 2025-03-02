@@ -7,7 +7,7 @@ import { COLORS, SHADOW_DEFAULT } from '@/utils/constants'
 import { useState, useRef } from 'react'
 import PickColorModal from '@/components/modals/PickColorModal'
 import QRCode from 'react-native-qrcode-svg';
-import { saveImageQr, shareQRImage } from '@/functions/saveQr'
+import { saveBase64Image, shareBase64Image, pickImage } from '@/functions/saveQr'
 
 interface Props {
     data: ScannedHistoryData
@@ -19,6 +19,7 @@ const WIDTH_SCREEN = Dimensions.get('screen').width
 export default function QrComponent({ data, DeleteFunction }: Props) {
 
     const [modalVisible, setModalVisible] = useState(false);
+    const [LogoImage, setLogoImage] = useState<string | null>(null);
 
     const [QrColor, setQrColor] = useState({ hexBg: '#fff', hexLines: '#000000' });
 
@@ -28,14 +29,27 @@ export default function QrComponent({ data, DeleteFunction }: Props) {
         const gaa = qrRef.current
         if (!gaa) return
 
-        const base64 = gaa.toDataURL((x) => x)
-        console.log(base64)
+        (gaa as any).toDataURL((x: any) => {
+            saveBase64Image(x)
+        })
 
     }
 
     const shareImage = async () => {
-        await shareQRImage(qrRef)
+        const gaa = qrRef.current
+        if (!gaa) return
+
+        (gaa as any).toDataURL((x: any) => {
+            shareBase64Image(x)
+        })
     };
+
+    const pickImageToLogo = async () => {
+        const image = await pickImage()
+        if (!image) return
+
+        setLogoImage(image)
+    }
 
     return (
         <View>
@@ -43,6 +57,8 @@ export default function QrComponent({ data, DeleteFunction }: Props) {
                 <View style={styles.qr}>
                     <QRCode
                         size={260}
+                        logoMargin={0}
+                        logo={LogoImage ? { uri: LogoImage } : undefined}
                         quietZone={15}
                         value={data.value}
                         color={QrColor.hexLines}
@@ -59,8 +75,9 @@ export default function QrComponent({ data, DeleteFunction }: Props) {
                 <TextComponent typeText='graySmall'>{new Date(data.timeStamp).toLocaleDateString()}</TextComponent>
             </View>
 
-            <View style={{ flexDirection: 'row', gap: 40, justifyContent: 'center', marginBottom: 15 }}>
+            <View style={{ flexDirection: 'row', gap: 25, justifyContent: 'center', marginBottom: 15 }}>
                 <BtnCircle image={require('@/assets/icons/trash.png')} FuncPress={DeleteFunction} />
+                <BtnCircle image={require('@/assets/icons/image.png')} FuncPress={pickImageToLogo} />
                 <BtnCircle image={require('@/assets/icons/color.png')} FuncPress={() => { setModalVisible(true) }} />
                 <BtnCircle image={require('@/assets/icons/download.png')} FuncPress={saveImage} />
                 <BtnCircle image={require('@/assets/icons/share.png')} FuncPress={shareImage} />
