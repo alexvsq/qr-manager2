@@ -85,7 +85,9 @@ export default function id() {
                                     typeHistory={TypeHistory}
                                     item={data}
                                 />
-
+                                {
+                                    <TextComponent typeText='graySmall'>{data.value}</TextComponent>
+                                }
                             </View>
 
                         </ListDynamic>
