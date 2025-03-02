@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
         ...SHADOW_DEFAULT
     },
     button2: {
-        backgroundColor: COLORS.blackBg,
+        backgroundColor: COLORS.blue,
         paddingVertical: 6,
         paddingHorizontal: 12,
         borderRadius: 10,
