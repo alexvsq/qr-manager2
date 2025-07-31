@@ -122,7 +122,7 @@ export default function settings() {
                 </TouchableOpacity>
                 <TouchableOpacity
                     onPress={comfirmDeleteAll}
-                    style={styles.button2}>
+                    style={styles.buttonDelete}>
                     <TextComponent typeText='white'>{t('config.deleteAll')}</TextComponent>
                 </TouchableOpacity>
 
@@ -147,6 +147,13 @@ const styles = StyleSheet.create({
     },
     button2: {
         backgroundColor: COLORS.blue,
+        paddingVertical: 6,
+        paddingHorizontal: 12,
+        borderRadius: 10,
+        ...SHADOW_DEFAULT
+    },
+    buttonDelete: {
+        backgroundColor: '#d60404ff',
         paddingVertical: 6,
         paddingHorizontal: 12,
         borderRadius: 10,
