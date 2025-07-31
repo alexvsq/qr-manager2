@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
 	},
 	GraySmall: {
 		fontFamily: 'Poppins-Regular',
-		fontSize: 12,
+		fontSize: 11,
 		color: COLORS.textGray,
 	},
 	Gray: {
