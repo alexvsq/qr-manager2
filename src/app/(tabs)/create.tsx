@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import TextComponent from '@/components/ui/TextComponent'
 import { COLORS, PADDING_HORIZONTAL, SHADOW_DEFAULT } from '@/utils/constants'
@@ -12,6 +12,7 @@ import CardRecent from '@/components/cards/CardRecent'
 import DivisorLine from '@/components/ui/DivisorLine'
 import HeaderCardCreate from '@/components/HeaderCreates'
 import EmptyData from '@/components/EmptyData'
+import { FlashList } from '@shopify/flash-list'
 
 export default function Create() {
 
@@ -58,7 +59,8 @@ export default function Create() {
                 <View style={{ paddingHorizontal: 25 }}>
                     <HeaderCardCreate />
                 </View>
-                <FlatList
+                <FlashList
+                    estimatedItemSize={69}
                     data={CreatedListHistory?.slice(0, 10)}
                     ListEmptyComponent={() => <EmptyData />}
                     keyExtractor={(item) => item.id + ""}

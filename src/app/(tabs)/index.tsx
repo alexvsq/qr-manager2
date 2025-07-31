@@ -1,4 +1,4 @@
-import { View, StyleSheet, Dimensions, FlatList } from "react-native";
+import { View, StyleSheet, Dimensions } from "react-native";
 import CamerUser from '@/components/CameraUser'
 import { COLORS, SHADOW_DEFAULT } from '@/utils/constants'
 import ListDynamic from "@/components/ListDynamic";
@@ -9,6 +9,7 @@ import { useScannedHistory } from '@/hooks/useScannedHistory'
 import Animated, { FadeInDown } from 'react-native-reanimated'
 import { router } from 'expo-router'
 import EmptyData from '@/components/EmptyData'
+import { FlashList } from '@shopify/flash-list'
 
 const WIDTH_SCREEN = Dimensions.get('window').width
 
@@ -39,13 +40,14 @@ export default function Index() {
       </View>
 
       <ListDynamic>
-        <View style={{ paddingHorizontal: 25 }}>
+        <View style={{ paddingHorizontal: 25, flex: 1 }}>
 
           <HeaderCardIndex />
 
-          <FlatList
+          <FlashList
             data={ScannedListHistory?.slice(0, 8)}
             ListEmptyComponent={() => <EmptyData />}
+            estimatedItemSize={63}
             keyExtractor={(item) => item.id + ""}
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{ paddingBottom: 30 }}

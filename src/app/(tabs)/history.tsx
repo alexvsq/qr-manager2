@@ -1,4 +1,4 @@
-import { FlatList, View, Pressable, Text } from 'react-native'
+import { View, Pressable, Text } from 'react-native'
 import { useScannedHistory } from '@/hooks/useScannedHistory'
 import CardHistory from '@/components/cards/CardDetails'
 import TextComponent from '@/components/ui/TextComponent'
@@ -8,6 +8,7 @@ import { useState } from 'react'
 import Animated, { FadeInLeft } from 'react-native-reanimated'
 import { router } from 'expo-router'
 import EmptyData from '@/components/EmptyData'
+import { FlashList } from "@shopify/flash-list";
 
 export default function history() {
 
@@ -45,14 +46,15 @@ export default function history() {
         !ScannedListHistory
           ? <EmptyData />
           :
-          <View>
+          <>
 
-
-            <FlatList
+            <FlashList
               data={currentType != 'all' ? [all, ...SCANNED_TYPES] : SCANNED_TYPES}
               horizontal={true}
+              estimatedItemSize={45}
               showsHorizontalScrollIndicator={false}
-              style={{ marginBottom: 10, paddingHorizontal: 5 }}
+              keyExtractor={(item) => item.codeId}
+              contentContainerStyle={{ paddingBottom: 10, paddingHorizontal: 5 }}
               ListHeaderComponent={() => {
 
                 return (
@@ -77,14 +79,12 @@ export default function history() {
                 )
               }}
             />
-
-
-            <FlatList
+            <FlashList
               data={filteredScannedListHistory()}
               keyExtractor={(item) => item.id + ""}
               showsVerticalScrollIndicator={false}
               contentContainerStyle={{ paddingHorizontal: 12, paddingBottom: 12 }}
-
+              estimatedItemSize={69}
               ListHeaderComponent={() => <TextComponent typeText='graySmall' style={{ margin: 8 }}>{DateString(ScannedListHistory[0].timeStamp)}</TextComponent>}
 
               renderItem={({ item, index }) => (
@@ -109,7 +109,7 @@ export default function history() {
                 return null
               }}
             />
-          </View>
+          </>
       }
     </View>
   )

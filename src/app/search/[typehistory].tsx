@@ -1,4 +1,4 @@
-import { View, TextInput, FlatList } from 'react-native';
+import { View, TextInput } from 'react-native';
 import { useState } from 'react';
 import { useLocalSearchParams, Stack, router } from 'expo-router';
 import { useScannedHistory } from '@/hooks/useScannedHistory';
@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { COLORS } from '@/utils/constants';
 import CardHistory from '@/components/cards/CardDetails';
 import EmptyData from '@/components/EmptyData';
+import { FlashList } from '@shopify/flash-list'
 
 export default function List() {
     const { t } = useTranslation();
@@ -67,9 +68,10 @@ export default function List() {
                 autoFocus
             />
 
-            <FlatList
+            <FlashList
+                estimatedItemSize={69}
                 keyExtractor={(item) => `${item.id}`}
-                style={{ paddingHorizontal: 12 }}
+                contentContainerStyle={{ paddingHorizontal: 12 }}
                 ListEmptyComponent={() => <EmptyData />}
                 data={filteredData}
                 renderItem={({ item }) => (
