@@ -1,4 +1,4 @@
-import { Stack } from 'expo-router/stack';
+import { Stack } from "expo-router";
 import { StatusBar } from 'expo-status-bar'
 import { useFonts } from 'expo-font';
 import { useEffect } from 'react';
@@ -36,6 +36,7 @@ export default function Layout() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <Stack
         screenOptions={{
+          statusBarStyle: 'dark',
           headerTitleStyle: {
             fontFamily: 'Poppins-SemiBold',
           },
@@ -51,7 +52,7 @@ export default function Layout() {
       >
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       </Stack>
-      <StatusBar style='dark' />
+      {/* <StatusBar style='dark' /> */}
     </GestureHandlerRootView>
   );
 }
