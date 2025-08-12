@@ -11,7 +11,7 @@ export const en = {
     "tab.Settings": "Settings",
     "title.details": "Details",
     "wifi.name": "Network Name",
-    "wifi.password": "Password",
+    "wifi.password": "Wi-Fi PassKey",
     "wifi.security": "Security",
     "wifi.hidden": "Visible",
     "notes.placeholder": "Write your notes here",
